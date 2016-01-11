@@ -12,10 +12,6 @@
 
     </properties>
   <repositories>
-  	<repository>
-	<id>vault-repo</id>
-	<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
-	</repository>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
@@ -25,11 +21,10 @@
         <id>spigot-repo</id>
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
-    <!--
 <repository>
 <id>mcstats-repo</id>
 <url>http://repo.mcstats.org/content/repositories/public</url>
-</repository> -->
+</repository>
     <repository>
       <id>drtshock-repo</id>
       <url>http://ci.drtshock.net/plugin/repository/everything</url>
@@ -38,6 +33,10 @@
       <id>sk89q-repo</id>
       <url>http://maven.sk89q.com/repo</url>
     </repository>
+      	<repository>
+	<id>vault-repo</id>
+	<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+	</repository>
   </repositories>
   <build>
     <plugins> <!--

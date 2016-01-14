@@ -1,7 +1,10 @@
 name: SurvivalGames
 version: ${project.version}.${BUILD_NUMBER}
 main: org.mcsg.survivalgames.SurvivalGames
-authors: [Double0negative]
+## Original Author ##
+author: [Double0negative]
+## Current Author ##
+author: ThunderGemios10
 description: Fully Automated Hunger Games Plugin!
 
 commands:

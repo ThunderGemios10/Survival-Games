@@ -6,6 +6,7 @@ author: [Double0negative]
 ## Current Author ##
 author: ThunderGemios10
 description: Fully Automated Hunger Games Plugin!
+depend: [WorldEdit]
 
 commands:
     survivalgames:

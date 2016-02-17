@@ -1,5 +1,5 @@
 name: SurvivalGames
-version: ${project.version}.${BUILD_NUMBER}
+version: 0.5.8
 main: org.mcsg.survivalgames.SurvivalGames
 ## Original Author ##
 author: [Double0negative]

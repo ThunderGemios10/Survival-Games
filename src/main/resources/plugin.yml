@@ -1,10 +1,8 @@
 name: SurvivalGames
 version: 0.5.8
 main: org.mcsg.survivalgames.SurvivalGames
-## Original Author ##
-author: [Double0negative]
-## Current Author ##
-author: ThunderGemios10
+## Authors ##
+authors: [Double0Negative, ThunderGemios10]
 description: Fully Automated Hunger Games Plugin!
 depend: [WorldEdit]
 

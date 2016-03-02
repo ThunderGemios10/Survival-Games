@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mcsg</groupId>
   <artifactId>survivalgames</artifactId>
-  <version>0.5.9-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
   <name>Survival-Games</name>
       <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -110,14 +110,14 @@
     <dependency>
            <groupId>org.spigotmc</groupId>
            <artifactId>spigot-api</artifactId>
-           <version>1.8.8-R0.1-SNAPSHOT</version>
+           <version>1.9-R0.1-SNAPSHOT</version>
            <scope>provided</scope>
     </dependency>
     <!--Bukkit API-->
     <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.9-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
     </dependency>
     <dependency>

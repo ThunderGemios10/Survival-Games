@@ -10,7 +10,6 @@ import org.mcsg.survivalgames.SettingsManager;
 
 public class Spectate implements SubCommand{
 
-    @Override
     public boolean onCommand(Player player, String[] args) {
         if (!player.hasPermission(permission()) && !player.isOp()) {
             MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.nopermission", player);
@@ -39,12 +38,10 @@ public class Spectate implements SubCommand{
         return true;
     }
 
-    @Override
     public String help(Player p) {
         return "/sg spectate <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.spectate", "Spectate a running arena");
     }
 
-	@Override
 	public String permission() {
 		return "sg.arena.spectate";
 	}

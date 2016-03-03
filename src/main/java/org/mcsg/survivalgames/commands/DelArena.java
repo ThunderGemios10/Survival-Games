@@ -13,7 +13,6 @@ import org.mcsg.survivalgames.MessageManager.PrefixType;
 
 public class DelArena implements SubCommand{
 
-    @Override
     public boolean onCommand(Player player, String[] args) {
         if (!player.hasPermission(permission()) && !player.isOp()){
             MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.nopermission", player);
@@ -47,12 +46,10 @@ public class DelArena implements SubCommand{
         return true;
     }
 
-    @Override
     public String help (Player p) {
         return "/sg delarena <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.delarena", "Delete an arena");
     }
 
-	@Override
 	public String permission() {
 		return "sg.admin.deletearena";
 	}   

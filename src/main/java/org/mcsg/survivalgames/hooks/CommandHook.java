@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 
 public class CommandHook implements HookBase{
 
-	@Override
 	public void executehook(String player, String[] args) {
 		if(player.equalsIgnoreCase("console")){
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), args[1]);

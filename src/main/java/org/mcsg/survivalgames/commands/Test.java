@@ -16,7 +16,6 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 
 public class Test implements SubCommand{
 
-	@Override
 	public boolean onCommand(Player player, String[] args) {
 		WorldEditPlugin we = GameManager.getInstance().getWorldEdit();
 		Selection sel = we.getSelection(player);
@@ -58,13 +57,11 @@ public class Test implements SubCommand{
 		}
 	}
 
-	@Override
 	public String help(Player p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String permission() {
 		// TODO Auto-generated method stub
 		return null;

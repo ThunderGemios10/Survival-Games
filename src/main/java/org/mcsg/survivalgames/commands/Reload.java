@@ -12,7 +12,6 @@ import org.mcsg.survivalgames.SettingsManager;
 
 public class Reload implements SubCommand{
 
-	@Override
 	public boolean onCommand(final Player player, String[] args) {
 		if(player.hasPermission(permission())){
 			if(args.length != 1){
@@ -57,13 +56,11 @@ public class Reload implements SubCommand{
 		return true;
 	}
 
-	@Override
 	public String help(Player p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String permission() {
 		return "sg.admin.reload";
 	}

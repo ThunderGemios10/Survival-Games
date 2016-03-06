@@ -13,6 +13,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Scoreboard;
 import org.mcsg.survivalgames.MessageManager.PrefixType;
 import org.mcsg.survivalgames.api.PlayerJoinArenaEvent;
 import org.mcsg.survivalgames.api.PlayerKilledEvent;
@@ -141,6 +146,19 @@ public class Game {
 
 	public Arena getArena() {
 		return arena;
+	}
+	
+	public void Scoreboard(Player player) {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getNewScoreboard();
+        
+        Objective objective = board.registerNewObjective("test", "dummy");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName("Scoreboard");
+        objective.getName();
+        
+        Score score = objective.getScore(ChatColor.GREEN + "Kills:"); //Get a fake offline player
+        score.setScore(1);
 	}
 
 

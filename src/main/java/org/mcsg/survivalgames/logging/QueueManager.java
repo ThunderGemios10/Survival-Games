@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Hashtable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,7 +26,7 @@ import org.mcsg.survivalgames.SurvivalGames;
 public class QueueManager {
 
 	private static QueueManager instance = new QueueManager();
-	private ConcurrentHashMap<Integer, ArrayList<BlockData>> queue = new ConcurrentHashMap<Integer, ArrayList<BlockData>>();
+	private Hashtable<Integer, ArrayList<BlockData>> queue = new Hashtable<Integer, ArrayList<BlockData>>();
 	File baseDir;
 
 	private QueueManager(){

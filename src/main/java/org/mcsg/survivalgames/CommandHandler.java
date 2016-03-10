@@ -29,6 +29,7 @@ import org.mcsg.survivalgames.commands.ResetSpawns;
 import org.mcsg.survivalgames.commands.SetLobbySpawn;
 import org.mcsg.survivalgames.commands.SetLobbyWall;
 import org.mcsg.survivalgames.commands.SetSpawn;
+import org.mcsg.survivalgames.commands.SetStatsWall;
 import org.mcsg.survivalgames.commands.Spectate;
 import org.mcsg.survivalgames.commands.SubCommand;
 import org.mcsg.survivalgames.commands.Teleport;
@@ -72,6 +73,7 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("list", new ListPlayers());
 		commands.put("tp", new Teleport());
 		commands.put("reload", new Reload());
+		commands.put("setstatswall", new SetStatsWall());
 //		commands.put("test", new Test());
 
 		// commands.put("sponsor", new Sponsor());
@@ -99,6 +101,7 @@ public class CommandHandler implements CommandExecutor {
 		helpinfo.put("leavequeue", 1);
 		helpinfo.put("list", 1);
 		commands.put("reload", new Reload());
+		helpinfo.put("setstatswall", 1);
 
 		//helpinfo.put("sponsor", 1);
 	}

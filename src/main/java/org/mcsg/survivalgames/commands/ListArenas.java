@@ -16,7 +16,7 @@ public class ListArenas implements SubCommand{
     	StringBuilder arenas = new StringBuilder();
     	try{
         	if(args.length == 0){
-	    		arenas.append(SettingsManager.getInstance().getMessageConfig().getString("messages.words.needlobby", "Specify which lobby")).append(": ");
+	    		arenas.append(SettingsManager.getInstance().getMessageConfig().getString("messages.error.needlobby", "Specify which lobby?")).append(": ");
 	    		player.sendMessage(ChatColor.RED + arenas.toString());
         	}
 	    	if(Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > GameManager.getInstance().getGameCount()){

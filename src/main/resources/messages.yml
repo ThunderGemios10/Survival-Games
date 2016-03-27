@@ -62,6 +62,7 @@ messages:
     notinside: '&cYou are not inside an arena!'
     nospawns: '&cNo spawns yet.'
     specingame: '&cCannot spectate while in game!'
+    needlobby: '&cSpecify which lobby number!'
   death:
     DEFAULT: '&e{$player} &2died!'
     BLOCK_EXPLOSION: '&e{$player} &2exploded!'

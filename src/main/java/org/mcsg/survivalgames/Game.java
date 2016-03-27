@@ -908,6 +908,12 @@ public class Game {
 				}
 				GameManager.openedChest.get(gameID).clear();
 				reset = true;
+				
+				if(config.getBoolean("restock-chest-repeat") ) {
+					tasks.add(Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(),
+						new NightChecker(),
+						SettingsManager.getGameWorld(gameID).getTime()-1));
+				}
 			}
 
 		}

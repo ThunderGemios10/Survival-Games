@@ -60,6 +60,7 @@ grace-period: 20
 #of the game. This is only temporary until per-arena time
 #has been implemented.
 restock-chest: true
+restock-chest-repeat: false
 
 #Here you can control block placing and breaking. 
 block:

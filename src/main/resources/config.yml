@@ -85,6 +85,24 @@ block:
     - 103
     - 43
 
+# Which entities will be left in the map after rollback
+entities:
+  keep:
+    - MinecartRideable
+    - MinecartFurnace
+    - MinecartCommandBlock
+    - MinecartSpawner
+    - MinecartHopper
+    - MinecartChest
+    - ArmorStand
+    - Painting
+    - ItemFrame
+#    - EnderCrystal
+#    - Boat
+#    - FallingSand
+#    - WitherSkull
+#    - LeashKnot
+
 #How many blocks to rollback per-tick
 #The higher this settings the fast each
 #arena will be reset but will cause more

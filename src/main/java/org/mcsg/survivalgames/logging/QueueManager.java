@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 
 import org.bukkit.Bukkit;
@@ -84,11 +85,17 @@ public class QueueManager {
 
 		public void run(){
 			ArrayList<Entity>removelist = new ArrayList<Entity>();
+			ArrayList<String> keeplist =  new ArrayList<String>();
 
+			keeplist.addAll(SettingsManager.getInstance().getConfig().getStringList("entities.keep"));
+			
 			for(Entity e:SettingsManager.getGameWorld(id).getEntities()){
 				if((!(e instanceof Player)) && (!(e instanceof HumanEntity))){
-					if(GameManager.getInstance().getBlockGameId(e.getLocation()) == id){
-						removelist.add(e);
+					if( ! keeplist.contains(e.getType().getName())  ) {
+						if(GameManager.getInstance().getBlockGameId(e.getLocation()) == id){
+							removelist.add(e);
+							SurvivalGames.debug("Removing an entity of type "+e.getType().getName());
+						}
 					}
 				}
 			}
@@ -178,11 +185,9 @@ public class QueueManager {
 			this.totalRollback = trb;
 			this.iteration = it;
 			this.time = time;
-			game = GameManager.getInstance().getGame(id);
+			this.game = GameManager.getInstance().getGame(id);
 			this.shutdown = shutdown;
 		}
-
-
 
 		public void run(){
 
@@ -195,7 +200,7 @@ public class QueueManager {
 				while(a>=0 && (rb < pt|| shutdown)){
 					SurvivalGames.debug("Reseting "+a);
 					BlockData result = data.get(a);
-					if(result.getGameId() == game.getID()){
+					if(result.getGameId() == this.game.getID()){
 
 						data.remove(a);
 						Location l = new Location(Bukkit.getWorld(result.getWorld()), result.getX(), result.getY(), result.getZ());
@@ -220,16 +225,14 @@ public class QueueManager {
 							new Rollback(id, shutdown, totalRollback + rb, iteration+1, time), 1);
 				}
 				else{
-					SurvivalGames.$ ("Arena "+id+" reset. Rolled back "+(totalRollback+rb)+" blocks in "+iteration+" iterations ("+pt+" blocks per iteration Total time spent rolling back was "+time+"ms)");
-					game.resetCallback();
+					SurvivalGames.info("Arena "+id+" reset. Rolled back "+(totalRollback+rb)+" blocks in "+iteration+" iterations ("+pt+" blocks per iteration Total time spent rolling back was "+time+"ms)");
+					this.game.resetCallback();
 				}
 			}else{
-				SurvivalGames.$ ("Arena "+id+" reset. Rolled back "+totalRollback+" blocks in "+iteration+" iterations. Total time spent rolling back was "+time+"ms");
-				game.resetCallback();
+				SurvivalGames.info("Arena "+id+" reset. Rolled back "+totalRollback+" blocks in "+iteration+" iterations. Total time spent rolling back was "+time+"ms");
+				this.game.resetCallback();
 			}
 		}
-
-
 	}
 }
 

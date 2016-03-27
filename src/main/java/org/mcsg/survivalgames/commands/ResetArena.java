@@ -7,6 +7,7 @@ import org.mcsg.survivalgames.Game;
 import org.mcsg.survivalgames.GameManager;
 import org.mcsg.survivalgames.MessageManager;
 import org.mcsg.survivalgames.MessageManager.PrefixType;
+import org.mcsg.survivalgames.logging.QueueManager;
 import org.mcsg.survivalgames.SettingsManager;
 
 public class ResetArena implements SubCommand {
@@ -31,9 +32,9 @@ public class ResetArena implements SubCommand {
 			return true;
 		}
 
-		Game g = GameManager.getInstance().getGame(game);
+		//Game g = GameManager.getInstance().getGame(game);
 		
-		g.resetArena();
+		QueueManager.getInstance().rollback(game, true);
 		
 		msgmgr.sendFMessage(PrefixType.INFO, "game.reset", player, "arena-" + game);
 

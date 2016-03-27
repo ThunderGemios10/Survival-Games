@@ -51,12 +51,14 @@ public class ItemReader {
 			itemid = Integer.parseInt(split[0]);
 		} 
 		catch( Exception e ) {
+			
 			Material m = Material.matchMaterial(split[0]);
 			if( m == null ) {
 				SurvivalGames.error("ItemReader: invalid id "+split[0]);
 				return null;
 			}
 			itemid = m.getId();
+			SurvivalGames.debug("Item "+split[0]+" is ID "+itemid);
 		}
 		try {
 			if(split.length == 1){

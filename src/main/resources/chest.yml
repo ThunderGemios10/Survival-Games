@@ -7,12 +7,10 @@
 #for the next level to spawn in.
 ##FORMAT
 # <itemid>,<max amount per slot>[,<DV>[,<enchantment>:<level> ...[,<name>]]]
-# minecraft:diamond_sword,1
+# diamond_sword,1
 # 236,1
 # diamond_sword,1,0,sharpness:5 knockback:2,Excalibur
-# All these are Lapis Lazuli
-# minecraft:dye,1,4
-# dye,1,4
+# Lapis Lazuli
 # 351,1,4
 # 
 

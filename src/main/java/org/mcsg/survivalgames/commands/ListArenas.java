@@ -27,7 +27,7 @@ public class ListArenas implements SubCommand{
 	    		player.sendMessage(ChatColor.RED + arenas.toString());
 	        	return true;
 	    	}
-	    	arenas.append(SettingsManager.getInstance().getMessageConfig().getString("messages.words.noarenas", "Arenas")).append(": ");
+	    	arenas.append(SettingsManager.getInstance().getMessageConfig().getString("messages.words.arenas", "Arenas")).append(": ");
 	        for (Game g : GameManager.getInstance().getGames()) {
 	        	arenas.append(g.getID()).append(", ");
 	        }

@@ -320,6 +320,7 @@ public class GameManager {
 
 	public void gameEndCallBack(int id) {
 		getGame(id).setRBStatus("clearing chest");
+		SurvivalGames.debug("Resetting list of saved chests");
 		openedChest.put(id, new HashSet < Block > ());
 	}
 

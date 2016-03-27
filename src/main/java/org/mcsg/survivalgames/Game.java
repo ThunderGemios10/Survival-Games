@@ -912,7 +912,7 @@ public class Game {
 				if(config.getBoolean("restock-chest-repeat") ) {
 					tasks.add(Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(),
 						new NightChecker(),
-						SettingsManager.getGameWorld(gameID).getTime()-1));
+						14400));
 				}
 			}
 

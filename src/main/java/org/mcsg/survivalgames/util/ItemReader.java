@@ -34,6 +34,7 @@ public class ItemReader {
 	
 	
 	public static ItemStack read(String str){
+		int itemid = 0;
 		if(encids == null){
 			loadIds();
 		}
@@ -43,28 +44,46 @@ public class ItemReader {
 			split[a] = split[a].toLowerCase().trim();
 		}
 		if(split.length < 1){
+			SurvivalGames.warning("ItemReader: empty line");
 			return null;
-		}else if(split.length == 1){
-			return new ItemStack(Integer.parseInt(split[0]));
-		}else if(split.length == 2){
-			return new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-		}else if(split.length == 3){
-			return new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Short.parseShort(split[2]));
-		}else{
-			ItemStack i =  new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Short.parseShort(split[2]));
-			String encs[] = split[3].split(" ");
-			for(String enc: encs){
-				System.out.println(enc);
-				String e[] = enc.split(":");
-				i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
-			}
-			if(split.length == 5){
-				ItemMeta im = i.getItemMeta();
-				im.setDisplayName(MessageUtil.replaceColors(split[4]));
-				i.setItemMeta(im);
-			}
-			return i;
 		}
+		try {
+			itemid = Integer.parseInt(split[0]);
+		} 
+		catch( Exception e ) {
+			Material m = Material.matchMaterial(split[0]);
+			if( m == null ) {
+				SurvivalGames.error("ItemReader: invalid id "+split[0]);
+				return null;
+			}
+			itemid = m.getId();
+		}
+		try {
+			if(split.length == 1){
+				return new ItemStack(itemid);
+			}else if(split.length == 2){
+				return new ItemStack(itemid, Integer.parseInt(split[1]));
+			}else if(split.length == 3){
+				return new ItemStack(itemid, Integer.parseInt(split[1]), Short.parseShort(split[2]));
+			}else{
+				ItemStack i =  new ItemStack(itemid, Integer.parseInt(split[1]), Short.parseShort(split[2]));
+				String encs[] = split[3].split(" ");
+				for(String enc: encs){
+					SurvivalGames.debug(enc);
+					String e[] = enc.split(":");
+					i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
+				}
+				if(split.length == 5){
+					ItemMeta im = i.getItemMeta();
+					im.setDisplayName(MessageUtil.replaceColors(split[4]));
+					i.setItemMeta(im);
+				}
+				return i;
+			}
+		} catch( Exception e ) {
+			SurvivalGames.error("ItemReader: invalid item string: "+str);			
+		}
+		return null;
 	}
 	
 	public static String getFriendlyItemName(Material m){

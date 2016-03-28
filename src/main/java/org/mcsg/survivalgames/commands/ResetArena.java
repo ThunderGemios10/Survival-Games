@@ -34,7 +34,7 @@ public class ResetArena implements SubCommand {
 
 		//Game g = GameManager.getInstance().getGame(game);
 		
-		QueueManager.getInstance().rollback(game, true);
+		QueueManager.getInstance().rollback(game, true); // forced fast rollback - blocks, chests, entities
 		
 		msgmgr.sendFMessage(PrefixType.INFO, "game.reset", player, "arena-" + game);
 

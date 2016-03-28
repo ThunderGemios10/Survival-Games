@@ -906,7 +906,8 @@ public class Game {
 				for (Player pl: activePlayers) {
 					msgmgr.sendMessage(PrefixType.INFO, "Chests restocked!", pl);
 				}
-				GameManager.openedChest.get(gameID).clear();
+				QueueManager.getInstance().restockChests(gameID);
+				//GameManager.openedChest.get(gameID).clear();
 				reset = true;
 				
 				if(config.getBoolean("restock-chest-repeat") ) {

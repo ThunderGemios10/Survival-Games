@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -13,9 +14,14 @@ import java.util.Hashtable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.mcsg.survivalgames.Game;
 import org.mcsg.survivalgames.GameManager;
 import org.mcsg.survivalgames.SettingsManager;
@@ -66,14 +72,27 @@ public class QueueManager {
 		}
 
 		if(shutdown){
-			new RemoveEntities(id);
+			new ResetChests(id).run();
+		}
+		else{ 
+			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
+					new ResetChests(id), 4);
+		}
+
+		if(shutdown){
+			new RemoveEntities(id).run();
 		}
 		else{ 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
 					new RemoveEntities(id), 5);
-		}//
+		}
 
 
+	}
+	
+	public void restockChests(final int id) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
+				new ResetChests(id));	
 	}
 
 	class RemoveEntities implements Runnable{
@@ -167,9 +186,34 @@ public class QueueManager {
 		}catch(Exception e){}
 	}
 
+	
+	class ResetChests implements Runnable{
+		private int id;
 
+		protected ResetChests(int id){
+			this.id = id;
+		}
 
-
+		public void run(){
+			HashMap<Block,ItemStack[]>openedChests = GameManager.openedChest.get(id);
+			
+			SurvivalGames.debug("Resetting saved chests content for game "+id);
+			for( Block chest: openedChests.keySet() ) {
+				BlockState bs = chest.getState();
+				if(bs instanceof Chest || bs instanceof DoubleChest){
+					SurvivalGames.debug("Resetting chest at "+chest.getX()+","+chest.getY()+","+chest.getZ()+" to previous contents");
+					Inventory inv = ((bs instanceof Chest))? ((Chest) bs).getBlockInventory()
+					: ((DoubleChest)bs).getLeftSide().getInventory(); // should handle double chests correctly!
+					// replace current contents with saved contents
+					inv.setContents(openedChests.get(chest));
+				} else {
+					SurvivalGames.debug("Block in saved chests map is no longer a chest?");
+				}
+			}
+			// forget saved content, so that randomisation can occur
+			GameManager.openedChest.put(id, new HashMap < Block, ItemStack[] > ());
+		}
+	}
 
 
 	class Rollback implements Runnable{

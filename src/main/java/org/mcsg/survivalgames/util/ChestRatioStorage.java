@@ -58,16 +58,17 @@ public class ChestRatioStorage {
 	}
 	
 	public ArrayList<ItemStack> getItems(int level){
+		int newlevel = level;
 		Random r = new Random();
 		ArrayList<ItemStack>items = new ArrayList<ItemStack>();
 
 		for(int a = 0; a< r.nextInt(7)+10; a++){
 			if(r.nextBoolean() == true){
-				while(level<level+5 && level < maxlevel && r.nextInt(ratio) == 1){
-					level++;
+				while(newlevel<level+5 && newlevel <= maxlevel && r.nextInt(ratio) == 1){
+					newlevel++;
 				}
 
-				ArrayList<ItemStack>lvl = lvlstore.get(level);
+				ArrayList<ItemStack>lvl = lvlstore.get(newlevel);
 				ItemStack item = lvl.get(r.nextInt(lvl.size()));
 
 				items.add(item);

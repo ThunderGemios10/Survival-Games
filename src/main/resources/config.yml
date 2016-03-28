@@ -54,13 +54,16 @@ cmdwhitelist:
 #the game in seconds.
 grace-period: 20
 
-#Controlls if chests should be restocked on the first
+#Controls if chests should be restocked on the first
 #night. If set to true this will also have the side
 #effect of setting the world time to day at the start
 #of the game. This is only temporary until per-arena time
 #has been implemented.
 restock-chest: true
+# Restock EVERY night?
 restock-chest-repeat: false
+# Remove all items from chests when adding random content?
+clear-chest: false
 
 #Here you can control block placing and breaking. 
 block:

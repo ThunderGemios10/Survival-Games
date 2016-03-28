@@ -76,7 +76,7 @@ public class QueueManager {
 		}
 		else{ 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
-					new ResetChests(id), 4);
+					new ResetChests(id));
 		}
 
 		if(shutdown){
@@ -205,7 +205,11 @@ public class QueueManager {
 					Inventory inv = ((bs instanceof Chest))? ((Chest) bs).getBlockInventory()
 					: ((DoubleChest)bs).getLeftSide().getInventory(); // should handle double chests correctly!
 					// replace current contents with saved contents
-					inv.setContents(openedChests.get(chest));
+					try {
+						inv.setContents(openedChests.get(chest));
+					} catch(Exception e) {
+					    SurvivalGames.warning("Problem resetting chest at " +chest.getX()+","+chest.getY()+","+chest.getZ()+" to original state!");
+					}
 				} else {
 					SurvivalGames.debug("Block in saved chests map is no longer a chest?");
 				}

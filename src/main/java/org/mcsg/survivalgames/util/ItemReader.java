@@ -21,14 +21,20 @@ public class ItemReader {
 		encids =  new HashMap<String, Enchantment>();
 		
 		for(Enchantment e:Enchantment.values()){
-			encids.put(e.toString().toLowerCase().replace("_", ""), e);
+			encids.put(e.getName().toLowerCase().replace("_", ""), e);
+			//encids.put(e.getName().toLowerCase(), e);
 		}
 		
 		
 		encids.put("sharpness", Enchantment.DAMAGE_ALL);
 		encids.put("dmg", Enchantment.DAMAGE_ALL);
 		encids.put("fire", Enchantment.FIRE_ASPECT);
+		encids.put("punch", Enchantment.ARROW_DAMAGE);
+		encids.put("looting", Enchantment.LOOT_BONUS_MOBS);
 
+//		for( String ench: encids.keySet()) {
+//			SurvivalGames.debug("Found enchantment: "+ench);
+//		}
 	}
 	
 	
@@ -73,7 +79,17 @@ public class ItemReader {
 				for(String enc: encs){
 					SurvivalGames.debug(enc);
 					String e[] = enc.split(":");
-					i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
+					e[0] = e[0].toLowerCase().replaceAll("_", "");
+					if( encids.containsKey(e[0]) ) {
+						try { 
+							// this may produce an invalid item
+							i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
+						} catch(Exception e2) {
+							SurvivalGames.warning("Unknown enchantment level '"+e[1]+"' on item: "+str);
+						}
+					} else {
+						SurvivalGames.warning("Unknown enchantment '"+e[0]+"' on item: "+str);
+					}
 				}
 				if(split.length == 5){
 					ItemMeta im = i.getItemMeta();

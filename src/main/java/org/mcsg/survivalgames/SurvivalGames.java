@@ -165,15 +165,15 @@ public class SurvivalGames extends JavaPlugin {
 	}
 
 	public static void info(String msg){
-		$(msg);
+		$(Level.INFO,msg);
 	}
 	
 	public static void warning(String msg){
-		$("[Warning] "+msg);
+		$(Level.WARNING,"[Warning] "+msg);
 	}
 	
 	public static void error(String msg){
-		$("[Error] "+msg);
+		$(Level.SEVERE,"[Error] "+msg);
 	}
 	
 	public static void debug(int a) {

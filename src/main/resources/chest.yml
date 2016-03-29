@@ -17,8 +17,15 @@
 #DONT TOUCH THIS
 version: 0
 
+# min = minimum number of items to put into chest
+# max = maximum number of items to put into chest
+# maxincrease = maximum number of levels to go up (based on 1/ratio chace of going up)
+
 chest:
   ratio: 10
+  min: 4
+  max: 10
+  maxincrease: 5
   lvl1:
   - 268,1
   - 298,1

@@ -207,14 +207,22 @@ public class QueueManager {
 					// replace current contents with saved contents
 					try {
 						inv.setContents(openedChests.get(chest));
+						if(SettingsManager.getInstance().getConfig().getBoolean("debug", false)) {
+							for( ItemStack is: inv.getContents() ) {
+								if( is != null ) {
+									SurvivalGames.debug("Restored item "+ is.getType().name() + " DV " + is.getDurability() + " qty "+is.getAmount());
+								}
+							}
+						}
 					} catch(Exception e) {
 					    SurvivalGames.warning("Problem resetting chest at " +chest.getX()+","+chest.getY()+","+chest.getZ()+" to original state!");
 					}
 				} else {
-					SurvivalGames.debug("Block in saved chests map is no longer a chest?");
+					SurvivalGames.warning("Block in saved chests map is no longer a chest?");
 				}
 			}
 			// forget saved content, so that randomisation can occur
+			SurvivalGames.debug("Emptying list of opened chests for game "+id);
 			GameManager.openedChest.put(id, new HashMap < Block, ItemStack[] > ());
 		}
 	}
@@ -246,7 +254,7 @@ public class QueueManager {
 				long t1 = new Date().getTime();
 				int pt = SettingsManager.getInstance().getConfig().getInt("rollback.per-tick", 100);
 				while(a>=0 && (rb < pt|| shutdown)){
-					SurvivalGames.debug("Reseting "+a);
+					// SurvivalGames.debug("Reseting "+a); // this makes a lot of noise in the logs
 					BlockData result = data.get(a);
 					if(result.getGameId() == this.game.getID()){
 

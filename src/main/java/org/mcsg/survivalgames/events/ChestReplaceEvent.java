@@ -46,8 +46,15 @@ public class ChestReplaceEvent implements Listener{
     						Inventory[] invs = ((clicked instanceof Chest))? new Inventory[] {((Chest) clicked).getBlockInventory()}
     						: new Inventory[] {((DoubleChest)clicked).getLeftSide().getInventory(), ((DoubleChest)clicked).getRightSide().getInventory()};
     						SurvivalGames.debug("ChestReplaceEvent: "+blk.getX()+","+blk.getY()+","+blk.getZ());
-    						// copy the original contents
-    						ItemStack[] oldinv = invs[0].getContents().clone();
+    						// DEEP copy the original contents.  Note items can be null!  Cannot use Inventory.clone() as that is a shallow copy
+    						ItemStack[] curinv = invs[0].getContents();
+    						ItemStack[] oldinv = new ItemStack[curinv.length];
+    						for( int i = 0; i < curinv.length; i++ ) {
+    							if( curinv[i] != null ) {
+    								ItemStack copy = new ItemStack(curinv[i]);
+        							oldinv[i] = copy;
+    							}
+    						}
     						int level = 1; // default level is 1
     						// if first item in chest is wool, use colour code + 1 for the level
     						ItemStack item = invs[0].getItem(0);
@@ -56,19 +63,46 @@ public class ChestReplaceEvent implements Listener{
     							SurvivalGames.debug("Setting level to "+level);
     							invs[0].removeItem(item);
     						}
+    						// This next call fixes any levels which are >maxlevel
     						level = ChestRatioStorage.getInstance().getLevel(level); // randomly go up by up to 4 levels
     						// if this is a double chest, it will have 2 inventories, else only one
     						for(Inventory inv : invs){
         						if( SettingsManager.getInstance().getConfig().getBoolean("clear",false)) {
         							SurvivalGames.debug("Clearing initial content");
-        							inv.setContents(new ItemStack[inv.getContents().length]);
+//        							inv.setContents(new ItemStack[inv.getContents().length]);
+        							inv.clear();
         						}
     				            for(ItemStack i: ChestRatioStorage.getInstance().getItems(level)){
+    				            	if( i == null ) { continue; }
     				                int l = rand.nextInt(26);
-    				                while(inv.getItem(l) != null)
+    				                int attempt = 0;
+    				                if( inv.getSize() > 25 ) {
+    				                	SurvivalGames.info("Chest at "+blk.getX()+","+blk.getY()+","+blk.getZ()+" is full: cannot add items");
+    				                	break; 
+    				                }
+    				                while((inv.getItem(l) != null) && (attempt<10))  { // warning!  Chest may be full!
     				                    l = rand.nextInt(26);
-    				                inv.setItem(l, i);
+    				                    attempt++;
+    				                }
+    				                
+    				                try {
+    				                	if(attempt<10) { inv.setItem(l, i); }
+    				                } catch ( Exception e2 ) {
+    				                	SurvivalGames.error("Problem putting item "+ i.getType().name() + " into slot "+l);
+    				                	SurvivalGames.error("Java says: "+e2.getMessage());
+    				                }
     				            }
+    						}
+    						if(SettingsManager.getInstance().getConfig().getBoolean("debug", false)) {
+	    						for( ItemStack is: oldinv ) {
+	    							if( is != null ) {
+	    								try { 
+	    									SurvivalGames.debug("Saved item "+ is.getType().name() + " DV " + is.getDurability() + " qty "+is.getAmount());
+	    								} catch ( Exception e2 ) {
+	    									SurvivalGames.debug("Error listing saved item");
+	    								}
+	    							}
+	    						}
     						}
         					openedChest.put(e.getClickedBlock(),oldinv);
         					GameManager.openedChest.put(gameid, openedChest);

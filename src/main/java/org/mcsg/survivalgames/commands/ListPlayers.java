@@ -23,16 +23,16 @@ public class ListPlayers implements SubCommand{
 			String[] msg = GameManager.getInstance().getStringList(gid).split("\n");
 			player.sendMessage(msg);
 			return false;
-                } catch (NumberFormatException ex) {
-                    MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notanumber", player, "input-Arena");
-                } catch (NullPointerException ex) {
-                    MessageManager.getInstance().sendMessage(MessageManager.PrefixType.ERROR, "error.gamenoexist", player);
-                }
+        } catch (NumberFormatException ex) {
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notanumber", player, "input-Arena");
+        } catch (NullPointerException ex) {
+            MessageManager.getInstance().sendMessage(MessageManager.PrefixType.ERROR, "error.gamenoexist", player);
+        }
 		return false;
 	}
 
 	public String help(Player p) {
-        return "/list - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.listplayers","List all players in the arena you are playing in");
+        return "/sg list [<id>] " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.listplayers","List all players in the arena you are playing in");
 	}
 
 	public String permission() {

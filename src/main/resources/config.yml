@@ -77,6 +77,8 @@ block:
     - 50
     - 103
     - 43
+    - 354
+    - 92
   break:
     whitelist:
     - 18
@@ -87,6 +89,8 @@ block:
     - 50
     - 103
     - 43
+    - 354
+    - 92
 
 # Which entities will be left in the map after rollback
 entities:

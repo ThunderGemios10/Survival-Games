@@ -196,7 +196,7 @@ public class QueueManager {
 
 		public void run(){
 			HashMap<Block,ItemStack[]>openedChests = GameManager.openedChest.get(id);
-			
+			if( openedChests == null ) { SurvivalGames.debug("Nothing to reset for id "+id); return; }
 			SurvivalGames.debug("Resetting saved chests content for game "+id);
 			for( Block chest: openedChests.keySet() ) {
 				BlockState bs = chest.getState();

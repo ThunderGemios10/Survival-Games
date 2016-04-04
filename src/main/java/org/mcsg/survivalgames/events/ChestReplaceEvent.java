@@ -76,17 +76,23 @@ public class ChestReplaceEvent implements Listener{
     				            	if( i == null ) { continue; }
     				                int l = rand.nextInt(26);
     				                int attempt = 0;
-    				                if( inv.getSize() > 25 ) {
+    				                if( inv.firstEmpty() < 0 ) {
     				                	SurvivalGames.info("Chest at "+blk.getX()+","+blk.getY()+","+blk.getZ()+" is full: cannot add items");
     				                	break; 
     				                }
-    				                while((inv.getItem(l) != null) && (attempt<10))  { // warning!  Chest may be full!
+    				                while((inv.getItem(l) != null) && (attempt<20))  { // warning!  Chest may be full!
+    				                	SurvivalGames.debug("Look again, slot "+l+" is already occupied!");
     				                    l = rand.nextInt(26);
     				                    attempt++;
     				                }
     				                
     				                try {
-    				                	if(attempt<10) { inv.setItem(l, i); }
+    				                	if(attempt<20) { 
+    				                		inv.setItem(l, i); 
+    				                	} else {
+        				                	SurvivalGames.info("Chest at "+blk.getX()+","+blk.getY()+","+blk.getZ()+" is too full: cannot add items");
+        				                	break; 
+        				                }
     				                } catch ( Exception e2 ) {
     				                	SurvivalGames.error("Problem putting item "+ i.getType().name() + " into slot "+l);
     				                	SurvivalGames.error("Java says: "+e2.getMessage());

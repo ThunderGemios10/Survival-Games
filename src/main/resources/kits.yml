@@ -8,7 +8,7 @@
 
 
 ##  Kits
-# the permission for each kit is sg.kits.<kitname> where
+# the permission for each kit is sg.kit.<kitname> where
 # kit name is the name of the kit
 #
 # cost is the cost to use this kit. #not implemented#

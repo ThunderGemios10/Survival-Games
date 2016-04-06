@@ -50,7 +50,7 @@ Read Before Posting!
 
 If you have for example 6 arenas, and you want every player to be able to join all arenas, give each rank the following permissions:
 
- - sg.arenas.join.<arena#> (Replace <arena#> with the arena number.)
+ - sg.arena.join.<arena#> (Replace <arena#> with the arena number.)
  - sg.arena.join
  - sg.arena.vote
  - sg.lobby.join

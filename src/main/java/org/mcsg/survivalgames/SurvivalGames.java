@@ -36,7 +36,7 @@ public class SurvivalGames extends JavaPlugin {
 	public static List < String > auth = Arrays.asList(new String[] {
 			"Double0negative", "iMalo", "Medic0987", "alex_markey", "skitscape", "AntVenom", "YoshiGenius", "pimpinpsp", "WinryR", "Jazed2011",
 			"KiwiPantz", "blackracoon", "CuppingCakes", "4rr0ws", "Fawdz", "Timothy13", "rich91", "ModernPrestige", "Snowpool", "egoshk", 
-			"nickm140",  "chaseoes", "Oceangrass", "GrailMore", "iAngelic", "Lexonia", "ChaskyT", "Anon232", "IngeniousGamer", "ThunderGemios10" //:) -Bryce
+			"nickm140",  "chaseoes", "Oceangrass", "GrailMore", "iAngelic", "Lexonia", "ChaskyT", "Anon232", "IngeniousGamer", "ThunderGemios10", "sshipway" // List of Contributors
 	});
 
 	SurvivalGames p = this;
@@ -164,6 +164,18 @@ public class SurvivalGames extends JavaPlugin {
 			$("[Debug] "+msg);
 	}
 
+	public static void info(String msg){
+		$(Level.INFO,msg);
+	}
+	
+	public static void warning(String msg){
+		$(Level.WARNING,"[Warning] "+msg);
+	}
+	
+	public static void error(String msg){
+		$(Level.SEVERE,"[Error] "+msg);
+	}
+	
 	public static void debug(int a) {
 		if(SettingsManager.getInstance().getConfig().getBoolean("debug", false))
 			debug(a+"");

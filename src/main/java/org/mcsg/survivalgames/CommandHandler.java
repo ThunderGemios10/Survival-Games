@@ -12,30 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.mcsg.survivalgames.MessageManager.PrefixType;
-import org.mcsg.survivalgames.commands.AddWall;
-import org.mcsg.survivalgames.commands.CreateArena;
-import org.mcsg.survivalgames.commands.DelArena;
-import org.mcsg.survivalgames.commands.Disable;
-import org.mcsg.survivalgames.commands.Enable;
-import org.mcsg.survivalgames.commands.Flag;
-import org.mcsg.survivalgames.commands.ForceStart;
-import org.mcsg.survivalgames.commands.Join;
-import org.mcsg.survivalgames.commands.Leave;
-import org.mcsg.survivalgames.commands.LeaveQueue;
-import org.mcsg.survivalgames.commands.ListArenas;
-import org.mcsg.survivalgames.commands.ListPlayers;
-import org.mcsg.survivalgames.commands.Reload;
-import org.mcsg.survivalgames.commands.ResetSpawns;
-import org.mcsg.survivalgames.commands.SetLobbySpawn;
-import org.mcsg.survivalgames.commands.SetLobbyWall;
-import org.mcsg.survivalgames.commands.SetSpawn;
-import org.mcsg.survivalgames.commands.SetStatsWall;
-import org.mcsg.survivalgames.commands.Spectate;
-import org.mcsg.survivalgames.commands.SubCommand;
-import org.mcsg.survivalgames.commands.Teleport;
-import org.mcsg.survivalgames.commands.Test;
-import org.mcsg.survivalgames.commands.Vote;
-
+import org.mcsg.survivalgames.commands.*;
 
 
 public class CommandHandler implements CommandExecutor {
@@ -71,17 +48,20 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("lq", new LeaveQueue());
 		commands.put("leavequeue", new LeaveQueue());
 		commands.put("list", new ListPlayers());
+		commands.put("listarenas", new ListArenas());
 		commands.put("tp", new Teleport());
 		commands.put("reload", new Reload());
+		commands.put("refill", new Refill());
 		commands.put("setstatswall", new SetStatsWall());
+		commands.put("resetarena", new ResetArena());
 //		commands.put("test", new Test());
 
 		// commands.put("sponsor", new Sponsor());
 	}
 
 	private void loadHelpInfo() {
-		//you can do this by iterating thru the hashmap from a certian index btw instead of using a new hashmap,
-		//plus, instead of doing three differnet ifs, just iterate thru and check if the value == the page
+		//you can do this by iterating thru the hashmap from a certain index btw instead of using a new hashmap,
+		//plus, instead of doing three different ifs, just iterate thru and check if the value == the page
 		helpinfo.put("createarena", 3);
 		helpinfo.put("join", 1);
 		helpinfo.put("addwall", 3);
@@ -100,7 +80,10 @@ public class CommandHandler implements CommandExecutor {
 		helpinfo.put("lq", 1);
 		helpinfo.put("leavequeue", 1);
 		helpinfo.put("list", 1);
-		commands.put("reload", new Reload());
+		helpinfo.put("listarenas", 1);
+		helpinfo.put("reload", 3);
+		helpinfo.put("refill", 3);
+		helpinfo.put("resetarena", 3);
 		helpinfo.put("setstatswall", 1);
 
 		//helpinfo.put("sponsor", 1);
@@ -109,6 +92,9 @@ public class CommandHandler implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd1, String commandLabel, String[] args) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
 		if (!(sender instanceof Player)) {
+			// we should really allow some command through, such as
+			// enable, disable, resetarena, reload, listarenas, flag, list
+			// however that might be too awkward
 			msgmgr.logMessage(PrefixType.WARNING, "Only in-game players can use SurvivalGames commands! ");
 			return true;
 		}
@@ -127,7 +113,8 @@ public class CommandHandler implements CommandExecutor {
 
 		if (cmd1.getName().equalsIgnoreCase("survivalgames")) {
 			if (args == null || args.length < 1) {
-				msgmgr.sendMessage(PrefixType.INFO, "Version " + pdfFile.getVersion() + " by Double0negative", player);
+				msgmgr.sendMessage(PrefixType.INFO, "Version " + pdfFile.getVersion() + " originally by Double0negative", player);
+				msgmgr.sendMessage(PrefixType.INFO, "Later fixes and updates by ThunderGemios10 and SShipway", player);
 				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help <player | staff | admin> for command information", player);
 				return true;
 			}

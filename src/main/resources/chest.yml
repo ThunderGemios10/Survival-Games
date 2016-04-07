@@ -1,18 +1,31 @@
 #Configuration for the chest item ratios
 #this system works by levels. Level 1 aka lvl1 
-#is the most common stuff whereas lvl5 is the least 
+#is the most common stuff whereas lvl16 is the least 
 #common. You can set what will spawn at each level below.
-#The ratio setting determines how likley the next level is
-#to spawn in. a ratio of 2 means that it is twice as unlikley
+#The ratio setting determines how likely the next level is
+#to spawn in. a ratio of 2 means that it is twice as unlikely
 #for the next level to spawn in.
 ##FORMAT
-# <itemid>,<max amount per slot>
+# <itemid>,<max amount per slot>[,<DV>[,<enchantment>:<level> ...[,<name>]]]
+# diamond_sword,1
+# 236,1
+# diamond_sword,1,0,sharpness:5 knockback:2,Excalibur
+# Lapis Lazuli
+# 351,1,4
+# 
 
 #DONT TOUCH THIS
 version: 0
 
+# min = minimum number of items to put into chest
+# max = maximum number of items to put into chest
+# maxincrease = maximum number of levels to go up (based on 1/ratio chace of going up)
+
 chest:
   ratio: 10
+  min: 4
+  max: 10
+  maxincrease: 5
   lvl1:
   - 268,1
   - 298,1

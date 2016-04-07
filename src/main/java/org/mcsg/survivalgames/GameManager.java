@@ -11,11 +11,13 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.mcsg.survivalgames.Game.GameMode;
 import org.mcsg.survivalgames.MessageManager.PrefixType;
 import org.mcsg.survivalgames.api.PlayerLeaveArenaEvent;
+import org.mcsg.survivalgames.logging.QueueManager;
 import org.mcsg.survivalgames.stats.StatsManager;
 import org.mcsg.survivalgames.util.Kit;
 
@@ -27,7 +29,7 @@ public class GameManager {
 	static GameManager instance = new GameManager();
 	private ArrayList < Game > games = new ArrayList < Game > ();
 	private SurvivalGames p;
-	public static HashMap < Integer, HashSet < Block >> openedChest = new HashMap < Integer, HashSet < Block >> ();
+	public static HashMap < Integer, HashMap < Block, ItemStack[] >> openedChest = new HashMap < Integer, HashMap < Block, ItemStack[] >> ();
 	private ArrayList<Kit>kits = new ArrayList<Kit>();
 	private HashSet<Player>kitsel = new HashSet<Player>();
 	MessageManager msgmgr = MessageManager.getInstance();
@@ -45,7 +47,7 @@ public class GameManager {
 		LoadGames();
 		LoadKits();
 		for (Game g: getGames()) {
-			openedChest.put(g.getID(), new HashSet < Block > ());
+			openedChest.put(g.getID(), new HashMap < Block, ItemStack[] > ());
 		}
 	}
 
@@ -319,8 +321,9 @@ public class GameManager {
 	}
 
 	public void gameEndCallBack(int id) {
-		getGame(id).setRBStatus("clearing chest");
-		openedChest.put(id, new HashSet < Block > ());
+		// Chest reset is now done by a separate class
+		//getGame(id).setRBStatus("clearing chest");
+		//openedChest.put(id, new HashMap < Block, ItemStack[] > ());
 	}
 
 	public String getStringList(int gid){

@@ -6,15 +6,22 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.mcsg.survivalgames.Game;
 import org.mcsg.survivalgames.GameManager;
 import org.mcsg.survivalgames.SettingsManager;
@@ -65,14 +72,27 @@ public class QueueManager {
 		}
 
 		if(shutdown){
-			new RemoveEntities(id);
+			new ResetChests(id).run();
+		}
+		else{ 
+			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
+					new ResetChests(id));
+		}
+
+		if(shutdown){
+			new RemoveEntities(id).run();
 		}
 		else{ 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
 					new RemoveEntities(id), 5);
-		}//
+		}
 
 
+	}
+	
+	public void restockChests(final int id) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(GameManager.getInstance().getPlugin(), 
+				new ResetChests(id));	
 	}
 
 	class RemoveEntities implements Runnable{
@@ -84,11 +104,17 @@ public class QueueManager {
 
 		public void run(){
 			ArrayList<Entity>removelist = new ArrayList<Entity>();
+			ArrayList<String> keeplist =  new ArrayList<String>();
 
+			keeplist.addAll(SettingsManager.getInstance().getConfig().getStringList("entities.keep"));
+			
 			for(Entity e:SettingsManager.getGameWorld(id).getEntities()){
 				if((!(e instanceof Player)) && (!(e instanceof HumanEntity))){
-					if(GameManager.getInstance().getBlockGameId(e.getLocation()) == id){
-						removelist.add(e);
+					if( ! keeplist.contains(e.getType().getName())  ) {
+						if(GameManager.getInstance().getBlockGameId(e.getLocation()) == id){
+							removelist.add(e);
+							SurvivalGames.debug("Removing an entity of type "+e.getType().getName());
+						}
 					}
 				}
 			}
@@ -160,9 +186,46 @@ public class QueueManager {
 		}catch(Exception e){}
 	}
 
+	
+	class ResetChests implements Runnable{
+		private int id;
 
+		protected ResetChests(int id){
+			this.id = id;
+		}
 
-
+		public void run(){
+			HashMap<Block,ItemStack[]>openedChests = GameManager.openedChest.get(id);
+			if( openedChests == null ) { SurvivalGames.debug("Nothing to reset for id "+id); return; }
+			SurvivalGames.debug("Resetting saved chests content for game "+id);
+			for( Block chest: openedChests.keySet() ) {
+				BlockState bs = chest.getState();
+				if(bs instanceof Chest || bs instanceof DoubleChest){
+					SurvivalGames.debug("Resetting chest at "+chest.getX()+","+chest.getY()+","+chest.getZ()+" to previous contents");
+					Inventory inv = ((bs instanceof Chest))? ((Chest) bs).getBlockInventory()
+					: ((DoubleChest)bs).getLeftSide().getInventory(); // should handle double chests correctly!
+					// replace current contents with saved contents
+					try {
+						inv.setContents(openedChests.get(chest));
+						if(SettingsManager.getInstance().getConfig().getBoolean("debug", false)) {
+							for( ItemStack is: inv.getContents() ) {
+								if( is != null ) {
+									SurvivalGames.debug("Restored item "+ is.getType().name() + " DV " + is.getDurability() + " qty "+is.getAmount());
+								}
+							}
+						}
+					} catch(Exception e) {
+					    SurvivalGames.warning("Problem resetting chest at " +chest.getX()+","+chest.getY()+","+chest.getZ()+" to original state!");
+					}
+				} else {
+					SurvivalGames.warning("Block in saved chests map is no longer a chest?");
+				}
+			}
+			// forget saved content, so that randomisation can occur
+			SurvivalGames.debug("Emptying list of opened chests for game "+id);
+			GameManager.openedChest.put(id, new HashMap < Block, ItemStack[] > ());
+		}
+	}
 
 
 	class Rollback implements Runnable{
@@ -178,11 +241,9 @@ public class QueueManager {
 			this.totalRollback = trb;
 			this.iteration = it;
 			this.time = time;
-			game = GameManager.getInstance().getGame(id);
+			this.game = GameManager.getInstance().getGame(id);
 			this.shutdown = shutdown;
 		}
-
-
 
 		public void run(){
 
@@ -193,9 +254,9 @@ public class QueueManager {
 				long t1 = new Date().getTime();
 				int pt = SettingsManager.getInstance().getConfig().getInt("rollback.per-tick", 100);
 				while(a>=0 && (rb < pt|| shutdown)){
-					SurvivalGames.debug("Reseting "+a);
+					// SurvivalGames.debug("Reseting "+a); // this makes a lot of noise in the logs
 					BlockData result = data.get(a);
-					if(result.getGameId() == game.getID()){
+					if(result.getGameId() == this.game.getID()){
 
 						data.remove(a);
 						Location l = new Location(Bukkit.getWorld(result.getWorld()), result.getX(), result.getY(), result.getZ());
@@ -220,16 +281,14 @@ public class QueueManager {
 							new Rollback(id, shutdown, totalRollback + rb, iteration+1, time), 1);
 				}
 				else{
-					SurvivalGames.$ ("Arena "+id+" reset. Rolled back "+(totalRollback+rb)+" blocks in "+iteration+" iterations ("+pt+" blocks per iteration Total time spent rolling back was "+time+"ms)");
-					game.resetCallback();
+					SurvivalGames.info("Arena "+id+" reset. Rolled back "+(totalRollback+rb)+" blocks in "+iteration+" iterations ("+pt+" blocks per iteration Total time spent rolling back was "+time+"ms)");
+					this.game.resetCallback();
 				}
 			}else{
-				SurvivalGames.$ ("Arena "+id+" reset. Rolled back "+totalRollback+" blocks in "+iteration+" iterations. Total time spent rolling back was "+time+"ms");
-				game.resetCallback();
+				SurvivalGames.info("Arena "+id+" reset. Rolled back "+totalRollback+" blocks in "+iteration+" iterations. Total time spent rolling back was "+time+"ms");
+				this.game.resetCallback();
 			}
 		}
-
-
 	}
 }
 

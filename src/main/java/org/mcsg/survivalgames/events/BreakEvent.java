@@ -15,7 +15,7 @@ import org.mcsg.survivalgames.SettingsManager;
 
 public class BreakEvent implements Listener {
 
-    public ArrayList<Integer> allowedBreak =  new ArrayList<Integer>();;
+    public ArrayList<Integer> allowedBreak =  new ArrayList<Integer>();
 
     public BreakEvent(){
         allowedBreak.addAll( SettingsManager.getInstance().getConfig().getIntegerList("block.break.whitelist"));

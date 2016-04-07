@@ -54,12 +54,16 @@ cmdwhitelist:
 #the game in seconds.
 grace-period: 20
 
-#Controlls if chests should be restocked on the first
+#Controls if chests should be restocked on the first
 #night. If set to true this will also have the side
 #effect of setting the world time to day at the start
 #of the game. This is only temporary until per-arena time
 #has been implemented.
 restock-chest: true
+# Restock EVERY night?
+restock-chest-repeat: false
+# Remove all items from chests when adding random content?
+clear-chest: false
 
 #Here you can control block placing and breaking. 
 block:
@@ -73,6 +77,8 @@ block:
     - 50
     - 103
     - 43
+    - 354
+    - 92
   break:
     whitelist:
     - 18
@@ -83,6 +89,26 @@ block:
     - 50
     - 103
     - 43
+    - 354
+    - 92
+
+# Which entities will be left in the map after rollback
+entities:
+  keep:
+    - MinecartRideable
+    - MinecartFurnace
+    - MinecartCommandBlock
+    - MinecartSpawner
+    - MinecartHopper
+    - MinecartChest
+    - ArmorStand
+    - Painting
+    - ItemFrame
+#    - EnderCrystal
+#    - Boat
+#    - FallingSand
+#    - WitherSkull
+#    - LeashKnot
 
 #How many blocks to rollback per-tick
 #The higher this settings the fast each

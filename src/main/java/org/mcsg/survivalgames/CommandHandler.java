@@ -12,31 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.mcsg.survivalgames.MessageManager.PrefixType;
-import org.mcsg.survivalgames.commands.AddWall;
-import org.mcsg.survivalgames.commands.CreateArena;
-import org.mcsg.survivalgames.commands.DelArena;
-import org.mcsg.survivalgames.commands.Disable;
-import org.mcsg.survivalgames.commands.Enable;
-import org.mcsg.survivalgames.commands.Flag;
-import org.mcsg.survivalgames.commands.ForceStart;
-import org.mcsg.survivalgames.commands.Join;
-import org.mcsg.survivalgames.commands.Leave;
-import org.mcsg.survivalgames.commands.LeaveQueue;
-import org.mcsg.survivalgames.commands.ListArenas;
-import org.mcsg.survivalgames.commands.ListPlayers;
-import org.mcsg.survivalgames.commands.Reload;
-import org.mcsg.survivalgames.commands.ResetArena;
-import org.mcsg.survivalgames.commands.ResetSpawns;
-import org.mcsg.survivalgames.commands.SetLobbySpawn;
-import org.mcsg.survivalgames.commands.SetLobbyWall;
-import org.mcsg.survivalgames.commands.SetSpawn;
-import org.mcsg.survivalgames.commands.SetStatsWall;
-import org.mcsg.survivalgames.commands.Spectate;
-import org.mcsg.survivalgames.commands.SubCommand;
-import org.mcsg.survivalgames.commands.Teleport;
-import org.mcsg.survivalgames.commands.Test;
-import org.mcsg.survivalgames.commands.Vote;
-
+import org.mcsg.survivalgames.commands.*;
 
 
 public class CommandHandler implements CommandExecutor {
@@ -75,6 +51,7 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("listarenas", new ListArenas());
 		commands.put("tp", new Teleport());
 		commands.put("reload", new Reload());
+		commands.put("refill", new Refill());
 		commands.put("setstatswall", new SetStatsWall());
 		commands.put("resetarena", new ResetArena());
 //		commands.put("test", new Test());
@@ -105,6 +82,7 @@ public class CommandHandler implements CommandExecutor {
 		helpinfo.put("list", 1);
 		helpinfo.put("listarenas", 1);
 		helpinfo.put("reload", 3);
+		helpinfo.put("refill", 3);
 		helpinfo.put("resetarena", 3);
 		helpinfo.put("setstatswall", 1);
 

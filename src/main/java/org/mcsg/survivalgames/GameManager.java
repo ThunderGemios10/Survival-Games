@@ -321,6 +321,7 @@ public class GameManager {
 	}
 
 	public void gameEndCallBack(int id) {
+		// Chest reset is now done by a separate class
 		//getGame(id).setRBStatus("clearing chest");
 		//openedChest.put(id, new HashMap < Block, ItemStack[] > ());
 	}

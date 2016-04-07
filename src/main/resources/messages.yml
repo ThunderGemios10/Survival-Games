@@ -25,6 +25,7 @@ messages:
     started: '&aStarted game {$arena}.'
     nopermission: '&cYou do not have permission to join arena {$arena}'
     reset: '&cArena {$arena} has been reset!'
+    refill: '&cChests in arena {$arena} refilled!'
   info:
     success: '&e{$command} &aexecuted successfuly.'
     unsuccess: '&e{$command} &cexecuted unsuccessfuly.'

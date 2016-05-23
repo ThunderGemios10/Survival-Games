@@ -76,3 +76,7 @@ nb-configuration.xml
 /update
 /worlds
 
+# JRebel #
+###########
+rebel.xml
+reble-remote.xml

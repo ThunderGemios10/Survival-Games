@@ -42,9 +42,9 @@ public class MessageManager {
 	 * Loads a Message from messages.yml, converts its colors and replaces vars in the form of {$var} with its correct values, 
 	 * then sends to the player, adding the correct prefix 
 	 *  
-	 * @param type
-	 * @param input
-	 * @param player
+	 * @param type Type of message to send
+	 * @param input What message you want to send from messages.yml
+	 * @param player Player you want to send message to
 	 * @param vars
 	 */
 	public void sendFMessage(PrefixType type, String input, Player player, String ... args) {
@@ -61,11 +61,11 @@ public class MessageManager {
 	/**
 	 * SendMessage
 	 * 
-	 * Sends a pre formated message from the plugin to a player, adding correct prefix first
+	 * Sends a pre formatted message from the plugin to a player, adding correct prefix first
 	 * 
-	 * @param type
-	 * @param msg
-	 * @param p
+	 * @param type Type of message to send
+	 * @param msg The message you want to send
+	 * @param player Player you want to send the message to
 	 */
 	
 	public void sendMessage(PrefixType type, String msg, Player player){

@@ -21,87 +21,84 @@ public class ItemReader {
 		encids =  new HashMap<String, Enchantment>();
 		
 		for(Enchantment e:Enchantment.values()){
-			encids.put(e.getName().toLowerCase().replace("_", ""), e);
-			//encids.put(e.getName().toLowerCase(), e);
+			encids.put(e.toString().toLowerCase().replace("_", ""), e);
 		}
 		
+		//Anything enchants
+		encids.put("unbreaking", Enchantment.DURABILITY);
 		
+		//Armor Enchants
+		encids.put("prot", Enchantment.PROTECTION_ENVIRONMENTAL);
+		encids.put("protection", Enchantment.PROTECTION_ENVIRONMENTAL);
+		encids.put("fireprot", Enchantment.PROTECTION_FIRE);
+		encids.put("fireprotection", Enchantment.PROTECTION_FIRE);
+		encids.put("featherfall", Enchantment.PROTECTION_FALL);
+		encids.put("featherfalling", Enchantment.PROTECTION_FALL);
+		encids.put("blastprot", Enchantment.PROTECTION_EXPLOSIONS);
+		encids.put("blastprotection", Enchantment.PROTECTION_EXPLOSIONS);
+		encids.put("projectileprot", Enchantment.PROTECTION_PROJECTILE);
+		encids.put("projectileprotection", Enchantment.PROTECTION_PROJECTILE);
+		encids.put("aquaaffinity", Enchantment.WATER_WORKER);
+		encids.put("respiration", Enchantment.OXYGEN);
+		
+		//Weapon Enchants
+		encids.put("smite", Enchantment.DAMAGE_UNDEAD);
+		encids.put("baneofarthropods", Enchantment.DAMAGE_ARTHROPODS);
 		encids.put("sharpness", Enchantment.DAMAGE_ALL);
 		encids.put("dmg", Enchantment.DAMAGE_ALL);
 		encids.put("fire", Enchantment.FIRE_ASPECT);
-		encids.put("punch", Enchantment.ARROW_DAMAGE);
 		encids.put("looting", Enchantment.LOOT_BONUS_MOBS);
-
-//		for( String ench: encids.keySet()) {
-//			SurvivalGames.debug("Found enchantment: "+ench);
-//		}
+		encids.put("loot", Enchantment.LOOT_BONUS_MOBS);
+		
+		//Tool enchants (Silk Touch's enchantment name is Silk_Touch, so it's covered above)
+		encids.put("efficiency", Enchantment.DIG_SPEED);
+		encids.put("fort", Enchantment.LOOT_BONUS_BLOCKS);
+		encids.put("fortune", Enchantment.LOOT_BONUS_BLOCKS);
+		
+		//Bow specific enchants
+		encids.put("punch", Enchantment.ARROW_KNOCKBACK);
+		encids.put("power", Enchantment.ARROW_DAMAGE);
+		encids.put("infinity", Enchantment.ARROW_INFINITE);
+		encids.put("flame", Enchantment.ARROW_FIRE);
+		
 	}
 	
 	
 	
 	public static ItemStack read(String str){
-		int itemid = 0;
 		if(encids == null){
 			loadIds();
 		}
 		String split[] = str.split(",");
 		SurvivalGames.debug("ItemReader: reading : "+Arrays.toString(split));
 		for(int a = 0; a < split.length; a++){
-			split[a] = split[a].toLowerCase().trim();
+			split[a] = split[a].trim();
 		}
 		if(split.length < 1){
-			SurvivalGames.warning("ItemReader: empty line");
 			return null;
-		}
-		try {
-			itemid = Integer.parseInt(split[0]);
-		} 
-		catch( Exception e ) {
-			
-			Material m = Material.matchMaterial(split[0]);
-			if( m == null ) {
-				SurvivalGames.error("ItemReader: invalid id "+split[0]);
-				return null;
-			}
-			itemid = m.getId();
-			SurvivalGames.debug("Item "+split[0]+" is ID "+itemid);
-		}
-		try {
-			if(split.length == 1){
-				return new ItemStack(itemid);
-			}else if(split.length == 2){
-				return new ItemStack(itemid, Integer.parseInt(split[1]));
-			}else if(split.length == 3){
-				return new ItemStack(itemid, Integer.parseInt(split[1]), Short.parseShort(split[2]));
-			}else{
-				ItemStack i =  new ItemStack(itemid, Integer.parseInt(split[1]), Short.parseShort(split[2]));
-				String encs[] = split[3].split(" ");
+		}else if(split.length == 1){
+			return new ItemStack(Integer.parseInt(split[0]));
+		}else if(split.length == 2){
+			return new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+		}else if(split.length == 3){
+			return new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Short.parseShort(split[2]));
+		}else{
+			ItemStack i =  new ItemStack(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Short.parseShort(split[2]));
+			if (!split[3].equalsIgnoreCase("none")) {
+				String encs[] = split[3].toLowerCase().split(" ");
 				for(String enc: encs){
-					SurvivalGames.debug(enc);
+					System.out.println(enc);
 					String e[] = enc.split(":");
-					e[0] = e[0].toLowerCase().replaceAll("_", "");
-					if( encids.containsKey(e[0]) ) {
-						try { 
-							// this may produce an invalid item
-							i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
-						} catch(Exception e2) {
-							SurvivalGames.warning("Unknown enchantment level '"+e[1]+"' on item: "+str);
-						}
-					} else {
-						SurvivalGames.warning("Unknown enchantment '"+e[0]+"' on item: "+str);
-					}
+					i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
 				}
-				if(split.length == 5){
-					ItemMeta im = i.getItemMeta();
-					im.setDisplayName(MessageUtil.replaceColors(split[4]));
-					i.setItemMeta(im);
-				}
-				return i;
 			}
-		} catch( Exception e ) {
-			SurvivalGames.error("ItemReader: invalid item string: "+str);			
+			if(split.length == 5){
+				ItemMeta im = i.getItemMeta();
+				im.setDisplayName(MessageUtil.replaceColors(split[4]));
+				i.setItemMeta(im);
+			}
+			return i;
 		}
-		return null;
 	}
 	
 	public static String getFriendlyItemName(Material m){

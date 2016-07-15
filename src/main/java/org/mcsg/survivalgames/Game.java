@@ -3,6 +3,8 @@ package org.mcsg.survivalgames;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,9 +29,6 @@ import org.mcsg.survivalgames.logging.QueueManager;
 import org.mcsg.survivalgames.stats.StatsManager;
 import org.mcsg.survivalgames.util.ItemReader;
 import org.mcsg.survivalgames.util.Kit;
-
-import com.sk89q.wepif.PluginPermissionsResolver;
-
 
 
 //Data container for a game
@@ -670,6 +669,13 @@ public class Game {
 		}, gameID);
 
 		mode = GameMode.FINISHING;
+		if(config.getBoolean("reward.enabled", false)) {
+			List<String> items = config.getStringList("reward.contents");
+			for(int i=0; i<=(items.size() - 1); i++) {
+				ItemStack item = ItemReader.read(items.get(i));
+				win.getInventory().addItem(item);
+			}
+		}
 
 		clearSpecs();
 		win.setHealth(p.getMaxHealth());

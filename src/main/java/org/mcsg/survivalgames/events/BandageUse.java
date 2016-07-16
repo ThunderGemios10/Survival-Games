@@ -15,6 +15,12 @@ public class BandageUse implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBandageUse(PlayerInteractEvent e) {
+		   Player p = e.getPlayer();
+		   Boolean active = GameManager.getInstance().isPlayerActive(p);
+		   if (!active) {
+		      return;
+		   }
+		   
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getPlayer().getItemInHand().getType() == Material.PAPER) {
 				e.getPlayer().getInventory().removeItem(new ItemStack(Material.PAPER, 1));
@@ -22,12 +28,7 @@ public class BandageUse implements Listener {
 				if((newhealth > 20.0) || (newhealth < 0 )) { newhealth = 20.0; }
 				e.getPlayer().setHealth(newhealth);
 				e.getPlayer().sendMessage(ChatColor.GREEN + "You used a bandage and got 5 hearts.");
-		        Player p = e.getPlayer();
-				if(GameManager.getInstance().isPlayerInactive(p)) {
-		            p.sendMessage(ChatColor.RED +" Cannot use bandages in outside of the arena!");
-		            e.setCancelled(true);
 		        }
 			}
 		}
 	}
-}

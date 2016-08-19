@@ -3,6 +3,7 @@ version: 0.6.3.2
 main: org.mcsg.survivalgames.SurvivalGames
 ## Authors ##
 authors: [Double0Negative, ThunderGemios10]
+website: thundergemios10.com
 description: Fully Automated Hunger Games Plugin!
 depend: [WorldEdit]
 

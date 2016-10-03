@@ -1006,7 +1006,7 @@ public class Game {
 	public boolean isPlayerActive(Player player) {
 		return activePlayers.contains(player);
 	}
-	public boolean isPlayerinactive(Player player) {
+	public boolean isPlayerInactive(Player player) {
 		return inactivePlayers.contains(player);
 	}
 	public boolean hasPlayer(Player p) {

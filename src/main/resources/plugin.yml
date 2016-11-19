@@ -1,6 +1,6 @@
 name: SurvivalGames
-version: 0.6.3.2
-main: org.mcsg.survivalgames.SurvivalGames
+version: 0.6.4
+main: com.thundergemios10.survivalgames.SurvivalGames
 ## Authors ##
 authors: [Double0Negative, ThunderGemios10]
 website: thundergemios10.com

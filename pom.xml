@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mcsg</groupId>
   <artifactId>survivalgames</artifactId>
-  <version>0.6.3.2-SNAPSHOT</version>
+  <version>0.6.4-SNAPSHOT</version>
   <name>Survival-Games</name>
       <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,9 +37,13 @@
 	<id>vault-repo</id>
 	<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 	</repository>
+        <repository>
+            <id>Plugin Metrics</id>
+            <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
   </repositories>
   <build>
-    <plugins> <!--
+    <plugins>
 <plugin>
 <groupId>org.apache.maven.plugins</groupId>
 <artifactId>maven-shade-plugin</artifactId>
@@ -65,7 +69,7 @@
 </goals>
 </execution>
 </executions>
-</plugin> -->
+</plugin>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
@@ -117,7 +121,7 @@
     <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.10-R0.1-SNAPSHOT</version>
+            <version>1.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
     </dependency>
     <dependency>
@@ -130,5 +134,15 @@
       <artifactId>Vault</artifactId>
       <version>1.5.6</version>
     </dependency>
+        <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics</artifactId>
+            <version>R8-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
   </dependencies>
+  <ciManagement>
+  	<system>HeroCC Jenkins</system>
+  	<url>http://ci.herocc.com</url>
+  </ciManagement>
 </project>

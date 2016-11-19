@@ -23,7 +23,7 @@ public class AddWall implements SubCommand{
     }
 
     public String help(Player p) {
-        return "/sg addwall <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.addwall", "Add a lobby stats wall for Arena <id>");
+        return null; //"/sg addwall <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.addwall", "Add a lobby stats wall for Arena <id>");
     }
 
 	public String permission() {

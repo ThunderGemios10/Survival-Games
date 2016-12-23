@@ -12,11 +12,11 @@
 
     </properties>
   <repositories>
-    <repository>
+   <!-- <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
+	  </repository> -->
       <!-- Spigot Repo -->
-    </repository>
         <repository>
         <id>spigot-repo</id>
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>

@@ -106,7 +106,7 @@ Creating an arena
 -----------------
 This required the WorldEdit wand.
 
-Use `/wand` to obtain the WorldEdit wand (usually, a golden axe).  With the wand, select the entire arena area by left-clicking one corner, and right-clicking the opposite corner.  Don't forget to cover all the vertical area as well!  You can use `//expand vert` to expand your selected area from bedrock to the top of the sky if you want; see the WorldEdit documentation for other WorldEdit commands.
+Use `//wand` to obtain the WorldEdit wand (usually, a golden axe).  With the wand, select the entire arena area by left-clicking one corner, and right-clicking the opposite corner.  Don't forget to cover all the vertical area as well!  You can use `//expand vert` to expand your selected area from bedrock to the top of the sky if you want; see the WorldEdit documentation for other WorldEdit commands.
 
 Once selected, use `/sg creatarena` to create the arena, and find out its number.  You can use `/sg listarenas` to list all the currently defined Arenas.
 

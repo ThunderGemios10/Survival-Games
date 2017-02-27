@@ -57,7 +57,7 @@ Note: Devs and important people of this plugin have colored names on lobby signs
 Read Before Posting!
 --------------------
  - A full tutorial on kits, economy and new features will be released soon!
- - /sg setlobbywall was changed to /sg addwall <arena> in versions 0.5.0 and above!
+ - /sg addwall was changed to /sg setstatswall <arena> in versions 0.6.0 and above!
  - Need support? Find me on IRC @ irc.esper.net #survivalgames or use the webchat: http://webchat.esper.net/?channels=survivalgames  
 *New Permissions:*
 

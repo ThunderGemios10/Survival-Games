@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.thundergemios10</groupId>
   <artifactId>survivalgames</artifactId>
-  <version>0.6.4-SNAPSHOT</version>
+  <version>0.6.5-SNAPSHOT</version>
   <name>Survival-Games</name>
       <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,10 +29,6 @@
 	<id>vault-repo</id>
 	<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 	</repository>
-        <repository>
-            <id>Plugin Metrics</id>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
   </repositories>
   <build>
     <plugins>

@@ -208,6 +208,7 @@ public class Game {
 	 */
 
 
+	@SuppressWarnings("deprecation")
 	public boolean addPlayer(Player p) {
 		if(SettingsManager.getInstance().getLobbySpawn() == null){
 			msgmgr.sendFMessage(PrefixType.WARNING, "error.nolobbyspawn", p);
@@ -409,6 +410,7 @@ public class Game {
 	 * 
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public void startGame() {
 		if (mode == GameMode.INGAME) {
 			return;
@@ -659,6 +661,7 @@ public class Game {
 	 * 
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public void playerWin(Player p) {
 		if (GameMode.DISABLED == mode) return;
 		Player win = activePlayers.get(0);
@@ -837,6 +840,7 @@ public class Game {
 		nextspec.put(p, 0);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void removeSpectator(Player p) {
 		ArrayList < Player > players = new ArrayList < Player > ();
 		players.addAll(activePlayers);

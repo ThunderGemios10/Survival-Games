@@ -1,7 +1,6 @@
 package com.thundergemios10.survivalgames;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,8 +23,6 @@ import com.thundergemios10.survivalgames.util.DatabaseManager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import org.mcstats.Metrics;
-
 public class SurvivalGames extends JavaPlugin {
 	public static Logger logger;
 	private static File datafolder;
@@ -47,10 +44,10 @@ public class SurvivalGames extends JavaPlugin {
 		SettingsManager.getInstance().saveSpawns();
 		SettingsManager.getInstance().saveSystemConfig();
 		for (Game g: GameManager.getInstance().getGames()) {
-			try{
+			try {
 				g.disable();
-			}catch(Exception e){
-				//will throw useless "tried to register task blah blah error." Use the method below to reset the arena without a task.
+			} catch(Exception e) {
+				// Will throw useless "tried to register task blah blah error." Use the method below to reset the arena without a task.
 			}
 			QueueManager.getInstance().rollback(g.getID(), true);
 		}
@@ -61,15 +58,8 @@ public class SurvivalGames extends JavaPlugin {
 	public void onEnable() {
 		logger = p.getLogger();
 
-		//ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
+		// Ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
-		try {
-			new Metrics(this).start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 
 	}
 
@@ -84,7 +74,7 @@ public class SurvivalGames extends JavaPlugin {
 			MessageManager.getInstance().setup();
 			GameManager.getInstance().setup(p);
 
-			try { // try loading everything that uses SQL. 
+			try { // Try loading everything that uses SQL. 
 				FileConfiguration c = SettingsManager.getInstance().getConfig();
 				if (c.getBoolean("stats.enabled")) DatabaseManager.getInstance().setup(p);
 				QueueManager.getInstance().setup();

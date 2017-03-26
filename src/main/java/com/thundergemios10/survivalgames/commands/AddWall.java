@@ -3,18 +3,17 @@ package com.thundergemios10.survivalgames.commands;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.LobbyManager;
 import com.thundergemios10.survivalgames.MessageManager;
-import com.thundergemios10.survivalgames.SettingsManager;
 
 
 
 public class AddWall implements SubCommand{
 
     public boolean onCommand(Player player, String[] args) {
-        if(!player.hasPermission(permission()) && !player.isOp()){
+        if(!player.hasPermission(permission()) && !player.isOp()) {
             MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.nopermission", player);
             return true;
         }
-        else if(args.length<1){
+        else if(args.length<1) {
                 MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notspecified", player, "input-Arena");
         	return true;
         }

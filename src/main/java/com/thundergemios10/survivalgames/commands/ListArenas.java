@@ -19,7 +19,7 @@ public class ListArenas implements SubCommand{
 	    		arenas.append(SettingsManager.getInstance().getMessageConfig().getString("messages.error.needlobby", "Specify which lobby?")).append(": ");
 	    		player.sendMessage(ChatColor.RED + arenas.toString());
         	}
-	    	if(Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > GameManager.getInstance().getGameCount()){
+	    	if(Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > GameManager.getInstance().getGameCount()) {
 	    		MessageManager.getInstance().sendMessage(PrefixType.ERROR, "error.gamenoexist", player);
 	    	}
 	    	if (GameManager.getInstance().getGames().isEmpty()) {

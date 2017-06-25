@@ -3,6 +3,7 @@ package com.thundergemios10.survivalgames.commands;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.LobbyManager;
 import com.thundergemios10.survivalgames.MessageManager;
+import com.thundergemios10.survivalgames.SettingsManager;
 
 
 
@@ -22,7 +23,7 @@ public class AddWall implements SubCommand{
     }
 
     public String help(Player p) {
-        return null; //"/sg addwall <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.addwall", "Add a lobby stats wall for Arena <id>");
+        return "/sg addwall <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.addwall", "Add a lobby stats wall for Arena <id>");
     }
 
 	public String permission() {

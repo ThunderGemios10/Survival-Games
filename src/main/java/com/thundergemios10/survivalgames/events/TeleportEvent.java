@@ -11,7 +11,7 @@ import com.thundergemios10.survivalgames.GameManager;
 public class TeleportEvent implements Listener{
 
     @EventHandler
-    public void playerTeleport(PlayerTeleportEvent event){
+    public void playerTeleport(PlayerTeleportEvent event) {
         Player p = event.getPlayer();
         int id = GameManager.getInstance().getPlayerGameId(p);
         if(id == -1) return;

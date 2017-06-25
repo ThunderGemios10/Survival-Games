@@ -52,7 +52,7 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("tp", new Teleport());
 		commands.put("reload", new Reload());
 		commands.put("refill", new Refill());
-		commands.put("setstatswall", new SetStatsWall());
+//		commands.put("setstatswall", new SetStatsWall());
 		commands.put("resetarena", new ResetArena());
 //		commands.put("test", new Test());
 
@@ -62,29 +62,29 @@ public class CommandHandler implements CommandExecutor {
 	private void loadHelpInfo() {
 		//you can do this by iterating thru the hashmap from a certain index btw instead of using a new hashmap,
 		//plus, instead of doing three different ifs, just iterate thru and check if the value == the page
-		helpinfo.put("createarena", 3);
 		helpinfo.put("join", 1);
-		helpinfo.put("addwall", 3);
-		helpinfo.put("setspawn", 3);
-		helpinfo.put("getcount", 3);
-		helpinfo.put("disable", 2);
-		helpinfo.put("start", 2);
-		helpinfo.put("enable", 2);
 		helpinfo.put("vote", 1);
-		helpinfo.put("leave", 1);
-		helpinfo.put("setlobbyspawn", 3);
-		helpinfo.put("resetspawns", 3);
-		helpinfo.put("delarena", 3);
-		helpinfo.put("flag", 3);
 		helpinfo.put("spectate", 1);
 		helpinfo.put("lq", 1);
 		helpinfo.put("leavequeue", 1);
 		helpinfo.put("list", 1);
 		helpinfo.put("listarenas", 1);
+		helpinfo.put("leave", 1);
+		helpinfo.put("disable", 2);
+		helpinfo.put("start", 2);
+		helpinfo.put("enable", 2);
+		helpinfo.put("createarena", 3);
+		helpinfo.put("addwall", 3);
+		helpinfo.put("setspawn", 3);
+		helpinfo.put("getcount", 3);
+		helpinfo.put("setlobbyspawn", 3);
+		helpinfo.put("resetspawns", 3);
+		helpinfo.put("delarena", 3);
+		helpinfo.put("flag", 3);
 		helpinfo.put("reload", 3);
 		helpinfo.put("refill", 3);
 		helpinfo.put("resetarena", 3);
-		helpinfo.put("setstatswall", 1);
+		//helpinfo.put("setstatswall", 1);
 
 		//helpinfo.put("sponsor", 1);
 	}

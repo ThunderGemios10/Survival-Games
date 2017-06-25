@@ -66,7 +66,7 @@ public class UpdateChecker {
                 SurvivalGames.$("[Updates found!");
 
             }else{
-            	SurvivalGames.$("[SG][info]No updates found!");
+            	SurvivalGames.$("[SG][info] No updates found!");
             }   
         }catch(Exception e){
         	SurvivalGames.$(Level.WARNING, "[SurvivalGames] could not check for updates.");

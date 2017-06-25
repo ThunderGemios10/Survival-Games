@@ -8,7 +8,7 @@ import com.thundergemios10.survivalgames.SettingsManager;
 import com.thundergemios10.survivalgames.MessageManager.PrefixType;
 
 
-public class Join implements SubCommand{
+public class Join implements SubCommand {
 
 	public boolean onCommand(Player player, String[] args) {
 		if(args.length == 1){

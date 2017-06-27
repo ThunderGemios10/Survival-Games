@@ -23,6 +23,8 @@ import com.thundergemios10.survivalgames.util.DatabaseManager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import org.bstats.Metrics;
+
 public class SurvivalGames extends JavaPlugin {
 	public static Logger logger;
 	private static File datafolder;
@@ -60,6 +62,8 @@ public class SurvivalGames extends JavaPlugin {
 
 		// Ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
+		
+		Metrics	metrics = new Metrics(this);
 
 	}
 

@@ -18,8 +18,8 @@
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
 <repository>
-<id>mcstats-repo</id>
-<url>http://repo.mcstats.org/content/repositories/public</url>
+  <id>bstats-repo</id>
+  <url>http://repo.bstats.org/content/repositories/releases/</url>
 </repository>
     <repository>
       <id>sk89q-repo</id>
@@ -39,13 +39,13 @@
 <configuration>
 <artifactSet>
 <includes>
-<include>org.mcstats:Metrics</include>
+<include>org.bstats:*</include>
 </includes>
 </artifactSet>
 <relocations>
 <relocation>
-<pattern>org.mcstats</pattern>
-<shadedPattern>libilibigot.utilzbiznatch.metrics</shadedPattern>
+<pattern>org.bstats</pattern>
+<shadedPattern>me.name.util</shadedPattern>
 </relocation>
 </relocations>
 </configuration>
@@ -122,6 +122,12 @@
       <artifactId>Vault</artifactId>
       <version>1.5.6</version>
     </dependency>
+    <!-- bStats -->
+    <dependency>
+  <groupId>org.bstats</groupId>
+  <artifactId>bstats-bukkit</artifactId>
+  <version>1.1</version>
+</dependency>
   </dependencies>
   <ciManagement>
   	<system>HeroCC Jenkins</system>

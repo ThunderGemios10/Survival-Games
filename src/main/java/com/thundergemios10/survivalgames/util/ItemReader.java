@@ -49,6 +49,7 @@ public class ItemReader {
 		encids.put("fire", Enchantment.FIRE_ASPECT);
 		encids.put("looting", Enchantment.LOOT_BONUS_MOBS);
 		encids.put("loot", Enchantment.LOOT_BONUS_MOBS);
+		encids.put("knockback", Enchantment.KNOCKBACK);
 		
 		//Tool enchants (Silk Touch's enchantment name is Silk_Touch, so it's covered above)
 		encids.put("efficiency", Enchantment.DIG_SPEED);

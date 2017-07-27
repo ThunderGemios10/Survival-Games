@@ -26,6 +26,7 @@ public class ItemReader {
 		
 		//Anything enchants
 		encids.put("unbreaking", Enchantment.DURABILITY);
+		encids.put("mending", Enchantment.MENDING);
 		
 		//Armor Enchants
 		encids.put("prot", Enchantment.PROTECTION_ENVIRONMENTAL);
@@ -40,8 +41,10 @@ public class ItemReader {
 		encids.put("projectileprotection", Enchantment.PROTECTION_PROJECTILE);
 		encids.put("aquaaffinity", Enchantment.WATER_WORKER);
 		encids.put("respiration", Enchantment.OXYGEN);
+		encids.put("thorns", Enchantment.THORNS);
 		
 		//Weapon Enchants
+		encids.put("knockback", Enchantment.KNOCKBACK);
 		encids.put("smite", Enchantment.DAMAGE_UNDEAD);
 		encids.put("baneofarthropods", Enchantment.DAMAGE_ARTHROPODS);
 		encids.put("sharpness", Enchantment.DAMAGE_ALL);
@@ -49,9 +52,9 @@ public class ItemReader {
 		encids.put("fire", Enchantment.FIRE_ASPECT);
 		encids.put("looting", Enchantment.LOOT_BONUS_MOBS);
 		encids.put("loot", Enchantment.LOOT_BONUS_MOBS);
-		encids.put("knockback", Enchantment.KNOCKBACK);
 		
 		//Tool enchants (Silk Touch's enchantment name is Silk_Touch, so it's covered above)
+		encids.put("silktouch", Enchantment.SILK_TOUCH);
 		encids.put("efficiency", Enchantment.DIG_SPEED);
 		encids.put("fort", Enchantment.LOOT_BONUS_BLOCKS);
 		encids.put("fortune", Enchantment.LOOT_BONUS_BLOCKS);
@@ -61,7 +64,10 @@ public class ItemReader {
 		encids.put("power", Enchantment.ARROW_DAMAGE);
 		encids.put("infinity", Enchantment.ARROW_INFINITE);
 		encids.put("flame", Enchantment.ARROW_FIRE);
-		
+
+		//Fishing Rod specific enchants
+		encids.put("luckofthesea", Enchantment.LUCK);
+		encids.put("lure", Enchantment.LURE);
 	}
 	
 	

@@ -42,6 +42,8 @@ public class ItemReader {
 		encids.put("aquaaffinity", Enchantment.WATER_WORKER);
 		encids.put("respiration", Enchantment.OXYGEN);
 		encids.put("thorns", Enchantment.THORNS);
+		encids.put("depthstrider", Enchantment.DEPTH_STRIDER);
+		encids.put("frostwalker", Enchantment.FROST_WALKER);
 		
 		//Weapon Enchants
 		encids.put("knockback", Enchantment.KNOCKBACK);
@@ -52,6 +54,7 @@ public class ItemReader {
 		encids.put("fire", Enchantment.FIRE_ASPECT);
 		encids.put("looting", Enchantment.LOOT_BONUS_MOBS);
 		encids.put("loot", Enchantment.LOOT_BONUS_MOBS);
+		encids.put("sweepingedge", Enchantment.SWEEPING_EDGE);
 		
 		//Tool enchants (Silk Touch's enchantment name is Silk_Touch, so it's covered above)
 		encids.put("silktouch", Enchantment.SILK_TOUCH);

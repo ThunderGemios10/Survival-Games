@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -903,6 +905,10 @@ public class Game {
 		}
 		p.getInventory().setArmorContents(inv);
 		p.updateInventory();
+		for(PotionEffect e : p.getActivePotionEffects())
+		{
+			p.addPotionEffect(new PotionEffect(e.getType(), 0 ,0), true);
+		}
 
 	}
 

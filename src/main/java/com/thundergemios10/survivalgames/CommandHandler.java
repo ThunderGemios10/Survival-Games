@@ -35,7 +35,7 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("setspawn", new SetSpawn());
 		commands.put("getcount", new ListArenas());
 		commands.put("disable", new Disable());
-		commands.put("start", new ForceStart());
+		commands.put("forcestart", new ForceStart());
 		commands.put("enable", new Enable());
 		commands.put("vote", new Vote());
 		commands.put("leave", new Leave());
@@ -180,7 +180,7 @@ public class CommandHandler implements CommandExecutor {
 
 					msgmgr.sendMessage(PrefixType.INFO, commands.get(command).help(p), p);
 				}
-			}catch(Exception e){}
+			} catch(Exception e) {}
 		}
 		/*for (SubCommand v : commands.values()) {
             if (v.permission() != null) {

@@ -37,7 +37,7 @@ public class SetSpawn implements SubCommand {
         int game = GameManager.getInstance().getBlockGameId(l);
         //System.out.println(game + " " + next.size());
         if(game == -1) {
-            MessageManager.getInstance().sendMessage(MessageManager.PrefixType.ERROR, "error.notinarena", player);
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notinarena", player);
             return true;
         }
         int i = 0;

@@ -5,3 +5,16 @@ jdk:
 addons:
   artifacts: true
   s3_region: "us-west-1" # defaults to "us-east-1"
+  
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "ThunderGemios10"
+  - git config --local user.email "thundergemios10@gmail.com"
+  
+deploy:
+  provider: releases
+  api_key: "455882f1a26921f4094ebf7d98a1477e2e2a917e"
+  file: "Survival-Games.jar"
+  skip_cleanup: true
+  on:
+    tags: true

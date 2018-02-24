@@ -5,3 +5,6 @@ jdk:
 addons:
   artifacts: true
   s3_region: "us-west-1" # defaults to "us-east-1"
+  
+  deploy:
+  skip_cleanup: true

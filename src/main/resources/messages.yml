@@ -46,7 +46,7 @@ messages:
     nopermission: '&cYou do not have permission to perform this action'
     gamedisabled: '&cArena {$arena} is disabled!'
     joinmultiplegames: '&cCannot join multiple games!'
-    notenoughtplayers: '&cNot enought players to start!'
+    notenoughplayers: '&cNot enough players to start!'
     gamedosentexist: '&cArena {$arena} doesn''t exist!'
     input: '&cInput error: {$message}'
     notingame: '&cMust be in a game to perform this action, or specify a game!'

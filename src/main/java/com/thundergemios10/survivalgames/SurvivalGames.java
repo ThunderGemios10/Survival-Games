@@ -63,6 +63,7 @@ public class SurvivalGames extends JavaPlugin {
 		// Ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
 		
+		@SuppressWarnings("unused")
 		Metrics	metrics = new Metrics(this);
 
 	}

@@ -15,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -210,7 +209,7 @@ public class Game {
 	 */
 
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unlikely-arg-type" })
 	public boolean addPlayer(Player p) {
 		if(SettingsManager.getInstance().getLobbySpawn() == null){
 			msgmgr.sendFMessage(PrefixType.WARNING, "error.nolobbyspawn", p);

@@ -19,6 +19,7 @@ import com.thundergemios10.survivalgames.GameManager;
 
 
 
+@SuppressWarnings("deprecation")
 public class SpectatorEvents implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)

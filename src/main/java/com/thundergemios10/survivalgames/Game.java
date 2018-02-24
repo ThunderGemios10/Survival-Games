@@ -817,6 +817,7 @@ public class Game {
 
 
 
+	@SuppressWarnings("deprecation")
 	public void addSpectator(Player p) {
 		if (mode != GameMode.INGAME) {
 			msgmgr.sendMessage(PrefixType.WARNING, "You can only spectate running games!", p);

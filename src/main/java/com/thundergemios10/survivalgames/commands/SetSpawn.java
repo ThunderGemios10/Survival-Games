@@ -21,7 +21,7 @@ public class SetSpawn implements SubCommand {
 
     public void loadNextSpawn() {
         for(Game g:GameManager.getInstance().getGames().toArray(new Game[0])) { //Avoid Concurrency problems
-            next.put(g.getID(), SettingsManager.getInstance().getSpawnCount(g.getID())+1);
+            next.put(g.getID(), SettingsManager.getInstance().getSpawnCount(g.getID()) + 1 );
         }
     }
     
@@ -56,12 +56,12 @@ public class SetSpawn implements SubCommand {
                 next.put(game, next.get(game)+1);
             }
             } catch(Exception e) {
-                MessageManager.getInstance().sendMessage(MessageManager.PrefixType.ERROR, "error.badinput", player);
+                MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.badinput", player);
                 return false;
             }
         }
         if(i == -1) {
-            MessageManager.getInstance().sendMessage(MessageManager.PrefixType.ERROR, "error.notinside", player);
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notinside", player);
             return true;
         }
         SettingsManager.getInstance().setSpawn(game, i, l);

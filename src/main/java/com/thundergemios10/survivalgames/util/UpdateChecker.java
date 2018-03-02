@@ -57,12 +57,12 @@ public class UpdateChecker {
             
            // System.out.println(in[0]+b);
             if(b) {
-                player.sendMessage(ChatColor.DARK_BLUE+"--------------------------------------");
-                player.sendMessage(ChatColor.DARK_RED+"[SurvivalGames] Update Available!");
-                player.sendMessage(ChatColor.DARK_AQUA    + "Your version: "+ChatColor.GOLD+v+ChatColor.DARK_AQUA+" Latest: " + ChatColor.GOLD+in[1]);
+                player.sendMessage(ChatColor.DARK_BLUE + "--------------------------------------");
+                player.sendMessage(ChatColor.DARK_RED + "[SurvivalGames] Update Available!");
+                player.sendMessage(ChatColor.DARK_AQUA    + "Your version: " + ChatColor.GOLD+v + ChatColor.DARK_AQUA+" Latest: " + ChatColor.GOLD + in[1]);
                 player.sendMessage(ChatColor.DARK_AQUA    + in[2]);
-                player.sendMessage(ChatColor.AQUA+""+ChatColor.UNDERLINE+in[3]);
-                player.sendMessage(ChatColor.DARK_BLUE+"--------------------------------------");
+                player.sendMessage(ChatColor.AQUA+"" + ChatColor.UNDERLINE + in[3]);
+                player.sendMessage(ChatColor.DARK_BLUE + "--------------------------------------");
                 SurvivalGames.$("[Updates found!");
 
             } else {

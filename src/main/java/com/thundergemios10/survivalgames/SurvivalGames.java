@@ -20,7 +20,6 @@ import com.thundergemios10.survivalgames.logging.QueueManager;
 import com.thundergemios10.survivalgames.stats.StatsManager;
 import com.thundergemios10.survivalgames.util.ChestRatioStorage;
 import com.thundergemios10.survivalgames.util.DatabaseManager;
-
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import org.bstats.Metrics;

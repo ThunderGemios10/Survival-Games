@@ -47,7 +47,7 @@ messages:
     gamedisabled: '&cArena {$arena} is disabled!'
     joinmultiplegames: '&cCannot join multiple games!'
     notenoughplayers: '&cNot enough players to start!'
-    gamedosentexist: '&cArena {$arena} doesn''t exist!'
+    gamedoesntexist: '&cArena {$arena} doesn''t exist!'
     input: '&cInput error: {$message}'
     notingame: '&cMust be in a game to perform this action, or specify a game!'
     command: '&cThe command {$command} returned an error'

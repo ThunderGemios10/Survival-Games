@@ -46,7 +46,7 @@ messages:
     gamedisabled: '&cArena {$arena} jest wylaczona!'
     joinmultiplegames: '&cNie mozesz dolaczyc do wielu gier!'
     notenoughtplayers: '&cJest zamalo graczy by rozpoczac gre!'
-    gamedosentexist: '&cArena {$arena} nie istnieje!'
+    gamedoesntexist: '&cArena {$arena} nie istnieje!'
     input: '&cInput error: {$message}'
     notingame: '&cMusisz byc w grze by wykonac ta czynnosc!'
     command: '&cKomenda {$command} zwrocila blad'

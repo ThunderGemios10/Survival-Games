@@ -22,7 +22,7 @@ import com.thundergemios10.survivalgames.util.ChestRatioStorage;
 import com.thundergemios10.survivalgames.util.DatabaseManager;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import org.bstats.Metrics;
+import org.bstats.bukkit.Metrics;
 
 public class SurvivalGames extends JavaPlugin {
 	public static Logger logger;

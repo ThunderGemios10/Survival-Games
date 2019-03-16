@@ -1,9 +1,8 @@
 name: SurvivalGames
-version: 0.6.7
+version: 0.6.8
 main: com.thundergemios10.survivalgames.SurvivalGames
 ## Authors ##
-authors: [Double0Negative, ThunderGemios10]
-website: thundergemios10.com
+authors: [Double0Negative, ThunderGemios10, remyboy2003]
 description: Fully Automated Hunger Games Plugin!
 depend: [WorldEdit]
 

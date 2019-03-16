@@ -3,6 +3,7 @@ package com.thundergemios10.survivalgames.logging;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -215,9 +216,9 @@ public class LoggingManager implements  Listener{
 				new BlockData( 
 						GameManager.getInstance().getBlockGameId(b.getLocation()),
 						b.getWorld().getName(),
-						0,
+						Material.AIR,
 						(byte)0,
-						b.getTypeId(),
+						b.getType(),
 						b.getData(),
 						b.getX(),
 						b.getY(),
@@ -233,15 +234,15 @@ public class LoggingManager implements  Listener{
 			return;
 		if( GameManager.getInstance().getGameMode(GameManager.getInstance().getBlockGameId(b.getLocation())) == Game.GameMode.DISABLED)
 			return ;
-		if(b.getTypeId() == 51)
+		if(b.getType().equals(Material.REDSTONE_WIRE))
 			return;
 		QueueManager.getInstance().add(
 				new BlockData( 
 						GameManager.getInstance().getBlockGameId(b.getLocation()),
 						b.getWorld().getName(),
-						b.getTypeId(),
+						b.getType(),
 						b.getData(),
-						0,
+						Material.AIR,
 						(byte)0,
 						b.getX(),
 						b.getY(),

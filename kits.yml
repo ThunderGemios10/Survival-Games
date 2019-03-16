@@ -44,16 +44,16 @@ kit-select-mode: 'SHOW_ALL'
 kits:
   test-kit:
     cost: 0
-    icon: '399'
+    icon: 'WOOD_DOOR'
     contents:
-    - '267,1, 0, sharpness:4, Blade'
-    - '261'
-    - '262, 64'
+    - 'IRON_SWORD,1, 0, sharpness:4, Blade'
+    - 'BOW'
+    - 'ARROW, 64'
   kit2:
     cost: 0
-    icon: '339'
+    icon: 'WOOD_DOOR'
     contents:
-    - '276,1, 0, fire:2, Fire'
-    - '261'
-    - '262, 64'
+    - 'STONE_SWORD,1, 0, fire:2, Fire'
+    - 'BOW'
+    - 'ARROW, 64'
     

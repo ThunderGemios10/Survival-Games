@@ -262,7 +262,8 @@ public class QueueManager {
 						data.remove(a);
 						Location l = new Location(Bukkit.getWorld(result.getWorld()), result.getX(), result.getY(), result.getZ());
 						Block b = l.getBlock();
-						b.setTypeIdAndData(result.getPrevid(), result.getPrevdata(), false);
+						b.setTypeIdAndData(1, result.getPrevdata(), false);
+						b.setType(result.getPrevType());
 						b.getState().update();
 
 						/*	if(result.getItems() != null){

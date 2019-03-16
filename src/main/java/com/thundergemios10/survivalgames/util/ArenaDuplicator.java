@@ -86,7 +86,6 @@ public class ArenaDuplicator {
 
         }
 
-        @SuppressWarnings("deprecation")
 		public void run(){
             Location l1;
             Location l2;
@@ -101,7 +100,7 @@ public class ArenaDuplicator {
                         //  System.out.println(l2);
                         //if(w.getBlockTypeIdAt(l1) != w.getBlockTypeIdAt(l2)){
                         try{
-                            if(l1.getBlock().getTypeId() != l2.getBlock().getTypeId()){
+                            if(!l1.getBlock().getType().equals(l2.getBlock().getType())){
 
             //                    Chunk c = l2.getChunk();
             //                    net.minecraft.server.Chunk chunk = ((CraftChunk) c).getHandle();

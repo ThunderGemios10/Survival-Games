@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+//import org.bukkit.craftbukkit.v1_12_R1.generator.InternalChunkGenerator;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -20,9 +21,12 @@ import com.thundergemios10.survivalgames.logging.QueueManager;
 import com.thundergemios10.survivalgames.stats.StatsManager;
 import com.thundergemios10.survivalgames.util.ChestRatioStorage;
 import com.thundergemios10.survivalgames.util.DatabaseManager;
+
+import net.md_5.bungee.api.ChatColor;
+
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import org.bstats.bukkit.Metrics;
+//import org.bstats.bukkit.Metrics;
 
 public class SurvivalGames extends JavaPlugin {
 	public static Logger logger;
@@ -31,14 +35,17 @@ public class SurvivalGames extends JavaPlugin {
 	public static boolean dbcon = false;
 	public static boolean config_todate = false;
 	public static int config_version = 3;
+	public static boolean PRE1_13;
+	public static final boolean LEGACY_ITEM_LOAD = false;
 
 	public static List < String > auth = Arrays.asList(new String[] {
 			"Double0negative", "iMalo", "Medic0987", "alex_markey", "skitscape", "AntVenom", "YoshiGenius", "pimpinpsp", "WinryR", "Jazed2011",
 			"KiwiPantz", "blackracoon", "CuppingCakes", "4rr0ws", "Fawdz", "Timothy13", "rich91", "ModernPrestige", "Snowpool", "egoshk", 
-			"nickm140",  "chaseoes", "Oceangrass", "GrailMore", "iAngelic", "Lexonia", "ChaskyT", "Anon232", "IngeniousGamer", "ThunderGemios10", "sshipway", "HeroCC" // List of Contributors
+			"nickm140",  "chaseoes", "Oceangrass", "GrailMore", "iAngelic", "Lexonia", "ChaskyT", "Anon232", "IngeniousGamer", "ThunderGemios10", "sshipway", "HeroCC", "remyboy2003" // List of Contributors
 	});
 
 	SurvivalGames p = this;
+	private static SurvivalGames instance;
 	public void onDisable() {
 		disabling = false;
 		PluginDescriptionFile pdfFile = p.getDescription();
@@ -58,12 +65,22 @@ public class SurvivalGames extends JavaPlugin {
 
 	public void onEnable() {
 		logger = p.getLogger();
-
+		setInstance(this);
+		
+		//check if server is pre 1.13
+		if (Integer.parseInt(getServer().getVersion().split("\\.")[1]) < 13) {
+			PRE1_13 = true;
+		}else {
+			PRE1_13 = false;
+		}
+		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Running pre 1.13: "+ PRE1_13);
+		
 		// Ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
+
 		
-		@SuppressWarnings("unused")
-		Metrics	metrics = new Metrics(this);
+//		@SuppressWarnings("unused")
+//		Metrics	metrics = new Metrics(this);
 
 	}
 
@@ -174,5 +191,11 @@ public class SurvivalGames extends JavaPlugin {
 	public static void debug(int a) {
 		if(SettingsManager.getInstance().getConfig().getBoolean("debug", false))
 			debug(a+"");
+	}
+	private void setInstance(SurvivalGames instance) {
+		SurvivalGames.instance = instance;
+	}
+	public static SurvivalGames getInstance() {
+		return instance;
 	}
 }

@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.GameManager;
-
+import com.thundergemios10.survivalgames.SurvivalGames;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
@@ -40,10 +40,9 @@ public class Test implements SubCommand{
 		
 	}
 	
-	@SuppressWarnings("deprecation")
 	public Location getYLocation(World w, int x, int y, int z){
 		Location l = new Location(w,x,y,z);
-		while(l.getBlock().getTypeId() == 0){
+		while(l.getBlock().getType().equals(Material.AIR)){
 			l.add(0,-1,0);
 		}
 		return l.add(0,1,0);
@@ -51,7 +50,17 @@ public class Test implements SubCommand{
 	
 	public void setFence(HashSet<Location> locs){
 		for(Location l: locs){
-			l.getBlock().setType(Material.FENCE);
+			Material material = null;
+			try {
+				if(SurvivalGames.PRE1_13) {
+					material = Material.class.cast(Material.class.getDeclaredField("FENCE"));
+				}else {				
+					material = Material.class.cast(Material.class.getDeclaredField("LEGACY_FENCE"));
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			l.getBlock().setType(material);
 		}
 	}
 

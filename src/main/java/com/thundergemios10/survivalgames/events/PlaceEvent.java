@@ -1,8 +1,10 @@
 package com.thundergemios10.survivalgames.events;
 
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,18 +13,31 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import com.thundergemios10.survivalgames.Game;
 import com.thundergemios10.survivalgames.GameManager;
 import com.thundergemios10.survivalgames.SettingsManager;
+import com.thundergemios10.survivalgames.SurvivalGames;
 
 
 
 public class PlaceEvent implements Listener {
 
-    public  ArrayList<Integer> allowedPlace = new ArrayList<Integer>();
+    public  ArrayList<Material> allowedPlace = new ArrayList<Material>();
+    static Method getMaterial = getMaterialMethod();
 
     public PlaceEvent(){
-        allowedPlace.addAll( SettingsManager.getInstance().getConfig().getIntegerList("block.place.whitelist"));
+    	for(String material : SettingsManager.getInstance().getConfig().getStringList("block.break.whitelist")) {
+    		material.toUpperCase();
+    		try {
+	    		if(SurvivalGames.PRE1_13) {
+	    			allowedPlace.add((Material) getMaterial.invoke(Material.class, material));
+	    		}else {
+	    			allowedPlace.add((Material) getMaterial.invoke(Material.class, material, SurvivalGames.LEGACY_ITEM_LOAD));
+	    		}
+    		} catch (Exception  e) {
+				e.printStackTrace();
+			}
+    	}
+    	SurvivalGames.debug("PlaceEvent: read : " + allowedPlace.toString());
     }
 
-    @SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
         Player p = event.getPlayer();
@@ -52,9 +67,22 @@ public class PlaceEvent implements Listener {
 
         }
 
-        if(!allowedPlace.contains(event.getBlock().getTypeId())){
-            event.setCancelled(true);
-        }
-
+        if(allowedPlace.contains(event.getBlock().getType())) {
+        	event.setCancelled(false);
+		}else {
+			event.setCancelled(true);
+		}
     }
+	private static Method getMaterialMethod() {
+		try {
+			if(SurvivalGames.PRE1_13) {
+				return Material.class.getMethod("getMaterial", String.class);
+			}else {
+				return Material.class.getMethod("getMaterial", String.class, boolean.class);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -63,7 +63,7 @@ restock-chest: true
 # Restock EVERY night?
 restock-chest-repeat: false
 # Remove all items from chests when adding random content?
-clear-chest: false
+clear-chest: true
 
 #Here you can control block placing and breaking. 
 block:

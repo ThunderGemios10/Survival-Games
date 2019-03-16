@@ -22,8 +22,6 @@ import com.thundergemios10.survivalgames.stats.StatsManager;
 import com.thundergemios10.survivalgames.util.ChestRatioStorage;
 import com.thundergemios10.survivalgames.util.DatabaseManager;
 
-import net.md_5.bungee.api.ChatColor;
-
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 //import org.bstats.bukkit.Metrics;
@@ -73,7 +71,12 @@ public class SurvivalGames extends JavaPlugin {
 		}else {
 			PRE1_13 = false;
 		}
-		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Running pre 1.13: "+ PRE1_13);
+		if(PRE1_13) {
+			getServer().getConsoleSender().sendMessage("[SurvivalGames] Running pre 1.13");
+		}else {
+			getServer().getConsoleSender().sendMessage("[SurvivalGames] Running 1.13+");
+		}
+		
 		
 		// Ensure that all worlds are loaded. Fixes some issues with Multiverse loading after this plugin had started
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);

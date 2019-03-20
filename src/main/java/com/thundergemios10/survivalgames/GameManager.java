@@ -1,5 +1,6 @@
 package com.thundergemios10.survivalgames;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,9 +17,13 @@ import com.thundergemios10.survivalgames.Game.GameMode;
 import com.thundergemios10.survivalgames.MessageManager.PrefixType;
 import com.thundergemios10.survivalgames.stats.StatsManager;
 import com.thundergemios10.survivalgames.util.Kit;
-
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
+import com.sk89q.worldedit.IncompleteRegionException;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.Region;
 
 public class GameManager {
 
@@ -29,7 +34,9 @@ public class GameManager {
 	private ArrayList<Kit>kits = new ArrayList<Kit>();
 	private HashSet<Player>kitsel = new HashSet<Player>();
 	MessageManager msgmgr = MessageManager.getInstance();
+	
 
+	
 	private GameManager() {
 
 	}
@@ -261,19 +268,51 @@ public class GameManager {
 		return p.getWorldEdit();
 	}
 
+	@SuppressWarnings("unused")
 	public void createArenaFromSelection(Player pl) {
 		FileConfiguration c = SettingsManager.getInstance().getSystemConfig();
 		//SettingsManager s = SettingsManager.getInstance();
-
-		WorldEditPlugin we = p.getWorldEdit();
-		Selection sel = we.getSelection(pl);
-		if (sel == null) {
+		
+		
+		Location max = null;
+		Location min = null;
+		try {
+			if(SurvivalGames.PRE1_13) {
+				Object sel2;
+				WorldEditPlugin we = p.getWorldEdit();
+				sel2 = ReflectionUtils.getSelection.invoke(we, pl);
+				sel2.getClass().cast(sel2);
+				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
+				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
+				if (sel2 == null) {
+					msgmgr.sendMessage(PrefixType.WARNING, "You must make a WorldEdit Selection first!", pl);
+					return;
+				}
+				
+			}else {
+				Region sel;
+				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, pl));
+				LocalSession localsesion = WorldEdit.getInstance().getSessionManager().get(bpl);
+				WorldEditPlugin we = p.getWorldEdit();			
+				try {
+					sel = localsesion.getSelection(bpl.getWorld());				
+				}catch(IncompleteRegionException e){
+					msgmgr.sendMessage(PrefixType.WARNING, "You must make a WorldEdit Selection first!", pl);
+					return;
+				}
+				Object maxV = sel.getMaximumPoint();
+				max = new Location(pl.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(maxV).toString()));
+				Object minV = sel.getMinimumPoint();
+				min = new Location(pl.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(minV).toString()));
+	
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		if(max == null || min == null) {
 			msgmgr.sendMessage(PrefixType.WARNING, "You must make a WorldEdit Selection first!", pl);
 			return;
 		}
-		Location max = sel.getMaximumPoint();
-		Location min = sel.getMinimumPoint();
-
 		/* if(max.getWorld()!=SettingsManager.getGameWorld() || min.getWorld()!=SettingsManager.getGameWorld()){
             pl.sendMessage(ChatColor.RED+"Wrong World!");
             return;
@@ -339,6 +378,4 @@ public class GameManager {
 
 		return sb.toString();
 	}
-
-
 }

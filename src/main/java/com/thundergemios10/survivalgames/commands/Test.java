@@ -1,26 +1,59 @@
 package com.thundergemios10.survivalgames.commands;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.GameManager;
 import com.thundergemios10.survivalgames.SurvivalGames;
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
+import com.sk89q.worldedit.IncompleteRegionException;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.Region;
 
 public class Test implements SubCommand{
 
 	public boolean onCommand(Player player, String[] args) {
 		WorldEditPlugin we = GameManager.getInstance().getWorldEdit();
-		Selection sel = we.getSelection(player);
-		if (sel == null) {
+		Location max = null;
+		Location min = null;
+		try {
+			if(SurvivalGames.PRE1_13) {
+				Object sel2;
+				sel2 = ReflectionUtils.getSelection.invoke(we, player);
+				sel2.getClass().cast(sel2);
+				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
+				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
+				
+			}else {
+				Region sel;
+				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, player));
+				LocalSession localsesion = WorldEdit.getInstance().getSessionManager().get(bpl);		
+				try {
+					sel = localsesion.getSelection(bpl.getWorld());				
+				}catch(IncompleteRegionException e){
+					player.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+					return false;
+				}
+				Object maxV = sel.getMaximumPoint();
+				max = new Location(player.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(maxV).toString()));
+				Object minV = sel.getMinimumPoint();
+				min = new Location(player.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(minV).toString()));
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		if (max  == null || min == null) {
 			return false;
 		}
-		Location max = sel.getMaximumPoint();
-		Location min = sel.getMinimumPoint();
 		
 		World w = max.getWorld();
 		

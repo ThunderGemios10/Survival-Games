@@ -1,5 +1,6 @@
 package com.thundergemios10.survivalgames.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -91,6 +92,7 @@ public class ItemReader {
 		if(split.length < 1){
 			return null;
 		}else if(split.length == 1){
+
     		if(SurvivalGames.PRE1_13) {
     			return new ItemStack((Material) getMaterial.invoke(Material.class, materialString));
     		}else {
@@ -98,32 +100,28 @@ public class ItemReader {
     		}
 		}else if(split.length == 2){
     		if(SurvivalGames.PRE1_13) {
-    			return new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
+				return new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
     		}else {
     			return new ItemStack((Material) getMaterial.invoke(Material.class, materialString, SurvivalGames.LEGACY_ITEM_LOAD), Integer.parseInt(split[1]));
     		}
 		}else if(split.length == 3){
+			ItemStack item;
     		if(SurvivalGames.PRE1_13) {
-    			ItemStack item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
-    			item.setDurability(Short.parseShort(split[2]));
-    			return item;
+    			item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
     		}else {
-    			ItemStack item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString, SurvivalGames.LEGACY_ITEM_LOAD), Integer.parseInt(split[1]));
-    			item.setDurability(Short.parseShort(split[2]));
-    			return item;
+    			item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString, SurvivalGames.LEGACY_ITEM_LOAD), Integer.parseInt(split[1]));
     		}
+			item.setDurability(Short.parseShort(split[2]));
+			return item;
 		}else{
-			ItemStack i = null;
+			ItemStack i;
     		if(SurvivalGames.PRE1_13) {
-    			ItemStack item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
-    			item.setDurability(Short.parseShort(split[2]));
-    			i = item;
+    			i = new ItemStack((Material) getMaterial.invoke(Material.class, materialString), Integer.parseInt(split[1]));
     		}else {
-    			ItemStack item = new ItemStack((Material) getMaterial.invoke(Material.class, materialString, SurvivalGames.LEGACY_ITEM_LOAD), Integer.parseInt(split[1]));
-    			item.setDurability(Short.parseShort(split[2]));
-    			i = item;
+    			i = new ItemStack((Material) getMaterial.invoke(Material.class, materialString, SurvivalGames.LEGACY_ITEM_LOAD), Integer.parseInt(split[1]));
     		}
-
+			i.setDurability(Short.parseShort(split[2]));
+			
 			if (!split[3].equalsIgnoreCase("none")) {
 				String encs[] = split[3].toLowerCase().split(" ");
 				for(String enc: encs){
@@ -139,10 +137,10 @@ public class ItemReader {
 			}
 			return i;
 		}	
-		}catch(Exception e) {
+		}catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
-			return new ItemStack(Material.DIRT);
 		}
+		return null;
 	}
 		
 	public static String getFriendlyItemName(Material m){

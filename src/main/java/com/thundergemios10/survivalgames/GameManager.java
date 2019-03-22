@@ -287,7 +287,7 @@ public class GameManager {
 				}				
 				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
 				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
-				
+
 			}else {
 				Region sel;
 				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, pl));

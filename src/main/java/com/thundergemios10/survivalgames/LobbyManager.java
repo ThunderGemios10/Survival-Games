@@ -139,7 +139,6 @@ public class LobbyManager {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void setLobbySignsFromSelection(Player pl, int a) {
 		FileConfiguration c = SettingsManager.getInstance().getSystemConfig();
 		SettingsManager s = SettingsManager.getInstance();
@@ -155,14 +154,13 @@ public class LobbyManager {
 			if(SurvivalGames.PRE1_13) {
 				Object sel2;
 				sel2 = ReflectionUtils.getSelection.invoke(we, pl);
-				sel2.getClass().cast(sel2);
-				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
-				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
 				if (sel2 == null) {
 					pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
 					return;
-				}
-				
+				}				
+				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
+				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
+	
 			}else {
 				Region sel;
 				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, pl));
@@ -181,6 +179,7 @@ public class LobbyManager {
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
+			return;
 		}
 		
 		if (max  == null || min == null) {

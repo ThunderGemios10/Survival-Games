@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.entity.Player;
 
-import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.thundergemios10.survivalgames.SurvivalGames;
 
 public class ReflectionUtils {
@@ -110,7 +110,7 @@ public class ReflectionUtils {
 	private static Method getSelectionMethod() {
 		if(!SurvivalGames.PRE1_13) return null;
 		try {
-			return WorldEdit.class.getMethod("getSelection", Player.class);
+			return WorldEditPlugin.class.getMethod("getSelection", Player.class);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}

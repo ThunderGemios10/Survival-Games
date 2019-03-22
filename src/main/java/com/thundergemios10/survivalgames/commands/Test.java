@@ -28,7 +28,10 @@ public class Test implements SubCommand{
 			if(SurvivalGames.PRE1_13) {
 				Object sel2;
 				sel2 = ReflectionUtils.getSelection.invoke(we, player);
-				sel2.getClass().cast(sel2);
+				if (sel2 == null) {
+					player.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+					return false;
+				}
 				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
 				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
 				
@@ -49,6 +52,7 @@ public class Test implements SubCommand{
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
+			return false;
 		}
 		
 		if (max  == null || min == null) {

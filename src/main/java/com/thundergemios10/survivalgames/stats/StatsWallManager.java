@@ -140,7 +140,10 @@ public class StatsWallManager {
 			if(SurvivalGames.PRE1_13) {
 				Object sel2;
 				sel2 = ReflectionUtils.getSelection.invoke(we, pl);
-				sel2.getClass().cast(sel2);
+				if (sel2 == null) {
+					pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+					return;
+				}	
 				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
 				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
 				

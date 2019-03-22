@@ -281,14 +281,13 @@ public class GameManager {
 				Object sel2;
 				WorldEditPlugin we = p.getWorldEdit();
 				sel2 = ReflectionUtils.getSelection.invoke(we, pl);
-				sel2.getClass().cast(sel2);
-				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
-				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
 				if (sel2 == null) {
 					msgmgr.sendMessage(PrefixType.WARNING, "You must make a WorldEdit Selection first!", pl);
 					return;
-				}
-				
+				}				
+				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
+				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
+
 			}else {
 				Region sel;
 				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, pl));
@@ -308,6 +307,7 @@ public class GameManager {
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
+			return;
 		}
 		if(max == null || min == null) {
 			msgmgr.sendMessage(PrefixType.WARNING, "You must make a WorldEdit Selection first!", pl);

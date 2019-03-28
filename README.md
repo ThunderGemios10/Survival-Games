@@ -64,7 +64,7 @@ Read Before Posting!
    The config.yml block break/place whitelist will also need to be updated.
 
    Make sure to use the correct name for your version (so YELLOW_FLOWER instead of DANDELION on 1.12)
-   on 1.13 both will work, but it won't convert wool,14 into RED_WOOL so i recommend you use the 1.13 name if you're on 1.13.
+   on 1.13 both will work, but it won't convert wool,64,14 into RED_WOOL so i recommend you use the 1.13 name if you're on 1.13.
 
 If you have for example 6 arenas, and you want every player to be able to join all arenas, give each rank the following permissions:
 

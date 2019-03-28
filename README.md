@@ -1,5 +1,7 @@
 Survival Games Reloaded [![Travis-CI](https://api.travis-ci.org/ThunderGemios10/Survival-Games.svg)](https://travis-ci.org/ThunderGemios10/Survival-Games)
 =================================
+
+
 Survival Games is a plugin that has the aim of creating a fully automated hunger games style experience. The plugin was created to be simple to use, and to be easily setup on any type of server, no matter the size or type! Survival Games provides a way for your server to have a full fledged, fully automated hunger games experience for any player. For more information on the aim of the plugin, watch popular youtuber AntVenom play Survival Games [HERE](http://www.youtube.com/watch?v=Lxqk1SRqW6I).
 
 Requirments
@@ -57,9 +59,12 @@ Note: Devs and important people of this plugin have colored names on lobby signs
 Read Before Posting!
 --------------------
  - A full tutorial on kits, economy and new features will be released soon!
- - /sg addwall was changed to /sg setstatswall <arena> in versions 0.6.0 and above!
- - Need support? Find me on IRC @ irc.esper.net #survivalgames or use the webchat: http://webchat.esper.net/?channels=survivalgames  
-*New Permissions:*
+ - If you're updating from the official version by ThunderGemios10 you will need to convert the item id's to item names
+   This means that old chest and kit configs will need to be edited to use the material name (ex: 267 to iron_sword).
+   The config.yml block break/place whitelist will also need to be updated.
+
+   Make sure to use the correct name for your version (so YELLOW_FLOWER instead of DANDELION on 1.12)
+   on 1.13 both will work, but it won't convert wool,14 into RED_WOOL so i recommend you use the 1.13 name if you're on 1.13.
 
 If you have for example 6 arenas, and you want every player to be able to join all arenas, give each rank the following permissions:
 
@@ -131,7 +136,6 @@ A chest Base Level will be randomly increased by up to `chest.maxincrese` in the
 If the `clear-chest` option in `config.yml` is true, then the chest is emptied before random items are selected.  Otherwise, only the Wool Block (if present) is removed, and the other items are left in place.
 
 Items defined in the `chest.lvlX` sections may be given in multiple forms, optionally quoted.  The identifier can be given as a name or as a number, and all fields after the quantity are optional.  Here are some examples:
-- 236,1   (Item number and quantity)
 - diamond_sword,1   (Item name and quantity)
 - dye,5,2   (Item name/number, quantity, and DV)
 - "diamond_sword,1,0,sharpness:2 looting:1"  (Item name/number, quantity, DV, enchantment list)

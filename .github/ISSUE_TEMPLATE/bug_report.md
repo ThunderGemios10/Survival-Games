@@ -19,6 +19,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Errors**
+If applicable, also add the errror getting.
+
 **Specfiy which versions your using**
  - Plugin version.
  - Spigot version.

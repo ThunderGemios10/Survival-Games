@@ -1,5 +1,7 @@
 package com.thundergemios10.survivalgames.stats;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,10 +11,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.SettingsManager;
 import com.thundergemios10.survivalgames.SurvivalGames;
-
-import com.sk89q.worldedit.Vector;
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
+import com.sk89q.worldedit.IncompleteRegionException;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.Region;
 
 public class StatsWallManager {
 
@@ -129,18 +134,47 @@ public class StatsWallManager {
         }
 
         WorldEditPlugin we = p.getWorldEdit();
-        Selection sel = we.getSelection(pl);
-        if(sel == null){
-            pl.sendMessage(ChatColor.RED+"You must make a WorldEdit Selection first");
-            return;
-        }
-        if( (sel.getNativeMaximumPoint().getBlockX()  - sel.getNativeMaximumPoint().getBlockX()) != 0 && (sel.getNativeMaximumPoint().getBlockZ()  - sel.getNativeMaximumPoint().getBlockZ() !=0)){
+        Location max = null;
+		Location min = null;
+		try {
+			if(SurvivalGames.PRE1_13) {
+				Object sel2;
+				sel2 = ReflectionUtils.getSelection.invoke(we, pl);
+				if (sel2 == null) {
+					pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+					return;
+				}	
+				max = (Location) ReflectionUtils.getMaximumPoint.invoke(sel2);
+				min = (Location) ReflectionUtils.getMinimumPoint.invoke(sel2);
+				
+			}else {
+				Region sel;
+				BukkitPlayer bpl = BukkitPlayer.class.cast(ReflectionUtils.adapt.invoke(ReflectionUtils.BukkitAdapterClass, pl));
+				LocalSession localsesion = WorldEdit.getInstance().getSessionManager().get(bpl);		
+				try {
+					sel = localsesion.getSelection(bpl.getWorld());				
+				}catch(IncompleteRegionException e){
+					pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+					return;
+				}
+				Object maxV = sel.getMaximumPoint();
+				max = new Location(pl.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(maxV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(maxV).toString()));
+				Object minV = sel.getMinimumPoint();
+				min = new Location(pl.getWorld(), Double.parseDouble(ReflectionUtils.getBlockX.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockY.invoke(minV).toString()),  Double.parseDouble(ReflectionUtils.getBlockZ.invoke(minV).toString()));
+			
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		if (max  == null || min == null) {
+			pl.sendMessage(ChatColor.RED + "You must make a WorldEdit Selection first");
+			return;
+		}
+        if( (max.getBlockX()  - max.getBlockX()) != 0 && (max.getBlockZ()  - max.getBlockZ() !=0)){
             pl.sendMessage(ChatColor.RED +" Must be in a straight line!");
             return;
         }
-
-        Vector max = sel.getNativeMaximumPoint();
-        Vector min = sel.getNativeMinimumPoint();
 
         c.set("sg-system.stats.sign.world", pl.getWorld().getName());
         c.set("sg-system.stats.sign.x1", max.getBlockX());

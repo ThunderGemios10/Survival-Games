@@ -26,6 +26,7 @@ import com.thundergemios10.survivalgames.util.ChestRatioStorage;
 
 public class ChestReplaceEvent implements Listener{
 
+	Material wool = getWool();
 	private Random rand = new Random();
 	
     @SuppressWarnings("deprecation")
@@ -57,7 +58,7 @@ public class ChestReplaceEvent implements Listener{
     						int level = 1; // default level is 1
     						// if first item in chest is wool, use colour code + 1 for the level
     						ItemStack item = invs[0].getItem(0);
-    						if ( (item != null && item.getType() == Material.WOOL) ) {
+    						if ( (item != null && item.getType() == wool) ) {
     							level = item.getData().getData() + 1;
     							SurvivalGames.debug("Setting level to "+level);
     							invs[0].removeItem(item);
@@ -121,7 +122,19 @@ public class ChestReplaceEvent implements Listener{
     	}
     }
     	
-    	
+    private Material getWool() {
+		Material wool = Material.STONE;
+		try {
+			if(SurvivalGames.PRE1_13) {
+				wool = Material.class.cast(Material.class.getDeclaredField("WOOL").get(Material.class));
+			}else {				
+				wool = Material.class.cast(Material.class.getDeclaredField("LEGACY_WOOL").get(Material.class));
+			}
+		} catch (Exception e1) {
+				e1.printStackTrace();
+		}
+		return wool;
+    }
     	
     	
     	

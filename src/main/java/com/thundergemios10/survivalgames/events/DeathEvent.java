@@ -52,7 +52,7 @@ public class DeathEvent implements Listener {
 					l.getWorld().dropItemNaturally(l, i);
 			}
 			for(ItemStack i: inv.getArmorContents()){
-				if(i!=null && i.getTypeId() !=0)
+				if(i!=null && i.getType() != null)
 					l.getWorld().dropItemNaturally(l, i);
 			}
 

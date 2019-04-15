@@ -114,7 +114,7 @@ public class CommandHandler implements CommandExecutor {
 		if (cmd1.getName().equalsIgnoreCase("survivalgames")) {
 			if (args == null || args.length < 1) {
 				msgmgr.sendMessage(PrefixType.INFO, "Version " + pdfFile.getVersion() + " originally by Double0negative", player);
-				msgmgr.sendMessage(PrefixType.INFO, "Later fixes and updates by ThunderGemios10 and SShipway", player);
+				msgmgr.sendMessage(PrefixType.INFO, "Later fixes and updates by ThunderGemios10, SShipway and remyboy2003", player);
 				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help <player | staff | admin> for command information", player);
 				return true;
 			}

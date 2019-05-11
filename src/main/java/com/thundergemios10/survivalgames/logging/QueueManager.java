@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -21,10 +22,12 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
 import com.thundergemios10.survivalgames.Game;
 import com.thundergemios10.survivalgames.GameManager;
 import com.thundergemios10.survivalgames.SettingsManager;
 import com.thundergemios10.survivalgames.SurvivalGames;
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
 
 
 
@@ -196,6 +199,7 @@ public class QueueManager {
 			this.id = id;
 		}
 
+		@SuppressWarnings("deprecation")
 		public void run(){
 			HashMap<Block,ItemStack[]>openedChests = GameManager.openedChest.get(id);
 			if( openedChests == null ) { SurvivalGames.debug("Nothing to reset for id "+id); return; }
@@ -247,7 +251,6 @@ public class QueueManager {
 			this.shutdown = shutdown;
 		}
 
-		@SuppressWarnings("deprecation")
 		public void run(){
 
 			ArrayList<BlockData>data = queue.get(id);
@@ -264,9 +267,17 @@ public class QueueManager {
 						data.remove(a);
 						Location l = new Location(Bukkit.getWorld(result.getWorld()), result.getX(), result.getY(), result.getZ());
 						Block b = l.getBlock();
-						b.setTypeIdAndData(1, result.getPrevdata(), false);
 						b.setType(result.getPrevType());
-						b.getState().update();
+						try {
+							if(SurvivalGames.PRE1_13) {
+								ReflectionUtils.setData.invoke(b, result.getPrevdataPRE1_13(), false);
+							}else {
+								ReflectionUtils.setBlockdata.invoke(b, ReflectionUtils.BlockDataClass.cast(result.getPrevdata()));
+							}
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+						b.getState().update(true, true);
 
 						/*	if(result.getItems() != null){
 							Chest c = (Chest)b;

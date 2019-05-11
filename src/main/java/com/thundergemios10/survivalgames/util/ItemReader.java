@@ -78,6 +78,7 @@ public class ItemReader {
 	
 	
 
+	@SuppressWarnings("deprecation")
 	public static ItemStack read(String str){
 		if(encids == null){
 			loadIds();

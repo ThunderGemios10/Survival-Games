@@ -1,7 +1,9 @@
 package com.thundergemios10.survivalgames;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.bukkit.ChatColor;
@@ -16,16 +18,20 @@ import com.thundergemios10.survivalgames.commands.*;
 
 
 public class CommandHandler implements CommandExecutor {
+	private static CommandHandler instance;
 	private Plugin plugin;
 	private HashMap < String, SubCommand > commands;
 	private HashMap < String, Integer > helpinfo;
 	private MessageManager msgmgr = MessageManager.getInstance();
+	public List<String> tabCompletionList = new ArrayList<String>();
 	public CommandHandler(Plugin plugin) {
+		setInstance(this);
 		this.plugin = plugin;
 		commands = new HashMap < String, SubCommand > ();
 		helpinfo = new HashMap < String, Integer > ();
 		loadCommands();
 		loadHelpInfo();
+		loadTabCompletionList();
 	}
 
 	private void loadCommands() {
@@ -87,6 +93,12 @@ public class CommandHandler implements CommandExecutor {
 		//helpinfo.put("setstatswall", 1);
 
 		//helpinfo.put("sponsor", 1);
+	}
+	private void loadTabCompletionList(){
+		for (String key : commands.keySet()) {
+			tabCompletionList.add(key);
+		}
+		
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd1, String commandLabel, String[] args) {
@@ -193,5 +205,11 @@ public class CommandHandler implements CommandExecutor {
                 msgmgr.sendMessage(PrefixType.INFO, v.help(p), p);
             }
         }*/
+	}
+	private void setInstance(CommandHandler instance) {
+		CommandHandler.instance = instance;
+	}
+	public static CommandHandler getInstance() {
+		return instance;
 	}
 }

@@ -40,7 +40,9 @@ public class SetSpawn implements SubCommand {
             return true;
         }
         int i = 0;
-        if(args[0].equalsIgnoreCase("next")) {
+        
+        //set's next spawn if no arguments are given or if args[0] equals "next"
+        if(args.length == 0 || args[0].equalsIgnoreCase("next")) {
             i = next.get(game);
             next.put(game, next.get(game) + 1);
         }

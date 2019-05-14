@@ -21,6 +21,7 @@ version: 0
 # max = maximum number of items to put into chest
 # maxincrease = maximum number of levels to go up (based on 1/ratio chace of going up)
 
+#if your using 1.12 change RED_WOOL to WOOL,<max amount per slot>,13
 chest:
   ratio: 10
   min: 4

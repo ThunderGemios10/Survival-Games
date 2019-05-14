@@ -15,6 +15,11 @@ public class ResetSpawns implements SubCommand{
             MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.nopermission", player);
             return true;
         }
+        if(args.length < 1) {
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.notspecified", player, "input-Arena");
+            return true;
+        }
+        
         try{
         SettingsManager.getInstance().getSpawns().set("spawns."+Integer.parseInt(args[0]), null);
         return true;

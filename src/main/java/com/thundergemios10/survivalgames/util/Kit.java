@@ -31,7 +31,7 @@ public class Kit {
 		cost = c.getDouble("kits."+name+".cost", 0);
 		
 		icon = ItemReader.read(c.getString("kits."+name+".icon"));
-		SurvivalGames.debug("[Kits] loading: " + icon.toString());
+		SurvivalGames.debug("[Kits] loading: " + icon);
 		List<String>cont = c.getStringList("kits."+name+".contents");
 		for(String s:cont){
 			items.add(ItemReader.read(s));

@@ -101,7 +101,7 @@ public class Test implements SubCommand{
 		}
 	}
 
-	public String help(Player p) {
+	public String help() {
 		// TODO Auto-generated method stub
 		return null;
 	}

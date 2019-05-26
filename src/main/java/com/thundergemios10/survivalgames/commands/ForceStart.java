@@ -1,5 +1,6 @@
 package com.thundergemios10.survivalgames.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.Game;
 import com.thundergemios10.survivalgames.GameManager;
@@ -9,14 +10,20 @@ import com.thundergemios10.survivalgames.SettingsManager;
 
 
 
-public class ForceStart implements SubCommand {
+public class ForceStart implements ConsoleSubCommand {
 
 	MessageManager msgmgr = MessageManager.getInstance();
+	private boolean isPlayer = false;
 
-	public boolean onCommand(Player player, String[] args) {
+	public boolean onCommand(CommandSender sender, String[] args) {
+		Player player = null;
+		if(sender instanceof Player) {
+			player = (Player)sender;
+			isPlayer = true;
+		}
 
-		if (!player.hasPermission(permission()) && !player.isOp()) {
-			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.nopermission", player);
+		if (!sender.hasPermission(permission()) && !sender.isOp() ) {
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.nopermission", sender);
 			return true;
 		}
 		int game = -1;
@@ -28,31 +35,36 @@ public class ForceStart implements SubCommand {
 			game = Integer.parseInt(args[0]);
 
 		}
-		else
+		else if(isPlayer)
 			game  = GameManager.getInstance().getPlayerGameId(player);
 		if(game == -1){
-			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.notingame", player);
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.notingame", sender);
 			return true;
 		}
-		if(GameManager.getInstance().getGame(game).getActivePlayers() < 2){
-			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.notenoughplayers", player);
-			return true;
-		}
-
-
+		
 		Game g = GameManager.getInstance().getGame(game);
-		if (g.getMode() != Game.GameMode.WAITING && !player.hasPermission("sg.arena.restart")) {
-			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.alreadyingame", player);
+		if(g == null) {
+			MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.gamedoesntexist", sender, "arena-" + args[0]);
+			return true;
+		}
+		
+		if(g.getActivePlayers() < 2){
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.notenoughplayers", sender);
+			return true;
+		}
+
+		if (g.getMode() != Game.GameMode.WAITING && !sender.hasPermission("sg.arena.restart")) {
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.alreadyingame", sender);
 			return true;
 		}
 		g.countdown(seconds);
 
-		msgmgr.sendFMessage(PrefixType.INFO, "game.started", player, "arena-" + game);
+		msgmgr.sendFMessage(PrefixType.INFO, "game.started", sender, "arena-" + game);
 
 		return true;
 	}
 
-	public String help(Player p) {
+	public String help() {
 		return "/sg forcestart - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.forcestart", "Forces the game to start");
 	}
 

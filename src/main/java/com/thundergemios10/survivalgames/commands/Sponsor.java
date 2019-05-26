@@ -68,7 +68,7 @@ public class Sponsor implements SubCommand {
 		return true;
 	}
 
-	public String help(Player p) {
+	public String help() {
 		return "/sg sponsor <player> <itemid> <amount> - Sponsor a player!";
 	}
 

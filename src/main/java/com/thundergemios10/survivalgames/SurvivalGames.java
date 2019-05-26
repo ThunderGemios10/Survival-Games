@@ -93,6 +93,7 @@ public class SurvivalGames extends JavaPlugin {
 
 			PluginManager pm = getServer().getPluginManager();
 			setCommands();
+			
 
 			SettingsManager.getInstance().setup(p);
 			MessageManager.getInstance().setup();
@@ -144,6 +145,7 @@ public class SurvivalGames extends JavaPlugin {
 
 	public void setCommands() {
 		getCommand("survivalgames").setExecutor(new CommandHandler(p));
+		this.getCommand("survivalgames").setTabCompleter(new com.thundergemios10.survivalgames.commands.TabCompletion());
 	}
 
 

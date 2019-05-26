@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import com.thundergemios10.survivalgames.SettingsManager;
+import com.thundergemios10.survivalgames.SurvivalGames;
 
 public class Kit {
 	// This thing hasn't been fully implemented. I should probably start working on this.
@@ -30,7 +31,7 @@ public class Kit {
 		cost = c.getDouble("kits."+name+".cost", 0);
 		
 		icon = ItemReader.read(c.getString("kits."+name+".icon"));
-		System.out.println(icon);
+		SurvivalGames.debug("[Kits] loading: " + icon);
 		List<String>cont = c.getStringList("kits."+name+".contents");
 		for(String s:cont){
 			items.add(ItemReader.read(s));

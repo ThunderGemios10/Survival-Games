@@ -78,6 +78,7 @@ public class ItemReader {
 	
 	
 
+	@SuppressWarnings("deprecation")
 	public static ItemStack read(String str){
 		if(encids == null){
 			loadIds();
@@ -137,8 +138,18 @@ public class ItemReader {
 			}
 			return i;
 		}	
-		}catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		}catch(IllegalAccessException | InvocationTargetException e) {
+			SurvivalGames.error("[ItemReader] Something went wrong while reading: \""+ str + "\"");
 			e.printStackTrace();
+		}catch(IllegalArgumentException e) {
+			if(e.getMessage().contains("Material") && e.getMessage().contains("null") ) {
+				SurvivalGames.warning("[ItemReader] Could not parse material: \""+ materialString + "\"");
+				e.printStackTrace();
+			}else {
+				SurvivalGames.error("[ItemReader] Something went wrong while reading: \""+ str + "\"");
+				e.printStackTrace();
+			}
+
 		}
 		return null;
 	}

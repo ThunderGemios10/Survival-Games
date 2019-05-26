@@ -40,7 +40,7 @@ public class Join implements SubCommand {
 		return true;
 	}
 
-	public String help(Player p) {
+	public String help() {
 		return "/sg join - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.join", "Join the lobby");
 	}
 

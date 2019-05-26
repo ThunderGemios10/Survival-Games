@@ -1,6 +1,7 @@
 package com.thundergemios10.survivalgames.logging;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import org.bukkit.Material;
@@ -18,8 +19,12 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+
 import com.thundergemios10.survivalgames.Game;
 import com.thundergemios10.survivalgames.GameManager;
+import com.thundergemios10.survivalgames.SurvivalGames;
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
 
 
 
@@ -66,6 +71,28 @@ public class LoggingManager implements  Listener{
 
 		//    System.out.println(2);
 
+	}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void blockChanged(PlayerInteractEvent e) {
+		if(e.isCancelled())return;
+		if(e.getClickedBlock() == null) return;
+		String[] type = e.getClickedBlock().getType().toString().split("_");
+		if(type.length >= 2) {
+			if(type[type.length-1].equalsIgnoreCase("button") || (type.length >= 3 && (type[type.length-1]+"_"+type[type.length-2]).equalsIgnoreCase("pressure_plate"))) return;
+			
+			if(type[type.length-1].equalsIgnoreCase("door")) {
+				Block down = e.getClickedBlock().getRelative(0, -1, 0);
+				String[] downType = down.getType().toString().split("_");
+				if(downType[downType.length-1].equalsIgnoreCase("door")) {
+					logBlockChanged(down);
+					i.put("BCHANGE", i.get("BCHANGE")+1);
+				}
+			}
+		}
+
+
+		logBlockChanged(e.getClickedBlock());
+		i.put("BCHANGE", i.get("BCHANGE")+1);
 	}
 	/* @EventHandler(priority = EventPriority.MONITOR)
     public void blockChanged(BlockPhysicsEvent e){
@@ -205,30 +232,48 @@ public class LoggingManager implements  Listener{
 	}
 */
 
-	@SuppressWarnings("deprecation")
 	public void logBlockCreated(Block b){
 		if(GameManager.getInstance().getBlockGameId(b.getLocation()) == -1)
 			return;
 		if( GameManager.getInstance().getGameMode(GameManager.getInstance().getBlockGameId(b.getLocation())) == Game.GameMode.DISABLED)
 			return ;
-
-		QueueManager.getInstance().add(
-				new BlockData( 
+		try {
+			if(SurvivalGames.PRE1_13) {
+				QueueManager.getInstance().add(
+					new BlockData( 
 						GameManager.getInstance().getBlockGameId(b.getLocation()),
 						b.getWorld().getName(),
 						Material.AIR,
 						(byte)0,
 						b.getType(),
-						b.getData(),
+						(byte)ReflectionUtils.getData.invoke(b),
 						b.getX(),
 						b.getY(),
 						b.getZ(),
 						null)
-				);
+					);
+			}else {
+				QueueManager.getInstance().add(
+					new BlockData( 
+						GameManager.getInstance().getBlockGameId(b.getLocation()),
+						b.getWorld().getName(),
+						Material.AIR,
+						(byte)0,
+						b.getType(),
+						ReflectionUtils.getBlockData.invoke(b),
+						b.getX(),
+						b.getY(),
+						b.getZ(),
+						null)
+					);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 
-	@SuppressWarnings("deprecation")
 	public void logBlockDestoryed(Block b){
 		if(GameManager.getInstance().getBlockGameId(b.getLocation()) == -1)
 			return;
@@ -236,19 +281,79 @@ public class LoggingManager implements  Listener{
 			return ;
 		if(b.getType().equals(Material.REDSTONE_WIRE))
 			return;
-		QueueManager.getInstance().add(
-				new BlockData( 
+		try {
+			if(SurvivalGames.PRE1_13) {
+				QueueManager.getInstance().add(
+					new BlockData( 
 						GameManager.getInstance().getBlockGameId(b.getLocation()),
 						b.getWorld().getName(),
 						b.getType(),
-						b.getData(),
+						(byte)ReflectionUtils.getData.invoke(b),
 						Material.AIR,
 						(byte)0,
 						b.getX(),
 						b.getY(),
 						b.getZ(),
 						null)
-				);
+					);
+			}else {
+				QueueManager.getInstance().add(
+					new BlockData( 
+						GameManager.getInstance().getBlockGameId(b.getLocation()),
+						b.getWorld().getName(),
+						b.getType(),
+						ReflectionUtils.getBlockData.invoke(b),
+						Material.AIR,
+						(byte)0,
+						b.getX(),
+						b.getY(),
+						b.getZ(),
+						null)
+					);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
-
+	public void logBlockChanged(Block b){
+		if(GameManager.getInstance().getBlockGameId(b.getLocation()) == -1)
+			return;
+		if( GameManager.getInstance().getGameMode(GameManager.getInstance().getBlockGameId(b.getLocation())) == Game.GameMode.DISABLED)
+			return ;
+		if(b.getType().equals(Material.REDSTONE_WIRE))
+			return;
+		try {
+			if(SurvivalGames.PRE1_13) {
+				QueueManager.getInstance().add(
+					new BlockData( 
+						GameManager.getInstance().getBlockGameId(b.getLocation()),
+						b.getWorld().getName(),
+						b.getType(),
+						(byte)ReflectionUtils.getData.invoke(b),
+						Material.AIR,
+						(byte)0,
+						b.getX(),
+						b.getY(),
+						b.getZ(),
+						null)
+					);
+			}else {
+				QueueManager.getInstance().add(
+					new BlockData( 
+						GameManager.getInstance().getBlockGameId(b.getLocation()),
+						b.getWorld().getName(),
+						b.getType(),
+						ReflectionUtils.getBlockData.invoke(b),
+						Material.AIR,
+						(byte)0,
+						b.getX(),
+						b.getY(),
+						b.getZ(),
+						null)
+					);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -18,7 +18,7 @@ public class CreateArena implements SubCommand{
         return true;
     }
 
-    public String help(Player p) {
+    public String help() {
         return "/sg createarena - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.createarena", "Create a new arena with the current WorldEdit selection");
     }
 

@@ -25,7 +25,7 @@ public class Vote implements SubCommand {
         return true;
     }
     
-    public String help(Player p) {
+    public String help() {
         return "/sg vote - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.vote", "Votes to start the game");
     }
 

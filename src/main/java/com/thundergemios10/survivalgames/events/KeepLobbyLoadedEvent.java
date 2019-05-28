@@ -13,7 +13,9 @@ public class KeepLobbyLoadedEvent implements Listener{
     public void onChunkUnload(ChunkUnloadEvent e){
         LobbyManager.getInstance();
 		if(LobbyManager.lobbychunks.contains(e.getChunk())){
-            e.setCancelled(true);
+//			e.setCancelled(true)
+//			TODO find a alternative way to keep the lobby chunks loaded
+			System.out.println("Lobby Chunk unloading");
         }
         //System.out.println("Chunk unloading");
     }

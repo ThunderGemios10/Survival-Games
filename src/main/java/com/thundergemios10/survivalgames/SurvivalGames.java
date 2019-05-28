@@ -66,7 +66,7 @@ public class SurvivalGames extends JavaPlugin {
 		setInstance(this);
 		
 		//check if server is pre 1.13
-		if (Integer.parseInt(getServer().getVersion().split("\\.")[1]) < 13) {
+		if (Integer.parseInt(getServer().getVersion().replaceAll("[^\\d.]", "").split("\\.")[1]) < 13) {
 			PRE1_13 = true;
 		}else {
 			PRE1_13 = false;

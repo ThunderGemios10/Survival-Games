@@ -125,7 +125,7 @@ public class StatsWallManager {
 
 
 
-    public void setStatsSignsFromSelection(Player pl){
+	public void setStatsSignsFromSelection(Player pl){
         FileConfiguration c = SettingsManager.getInstance().getSystemConfig();
         SettingsManager s = SettingsManager.getInstance();
         if(!c.getBoolean("sg-system.stats.sign.set", false)){

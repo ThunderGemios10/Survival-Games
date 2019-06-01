@@ -272,7 +272,9 @@ public class QueueManager {
 							if(SurvivalGames.PRE1_13) {
 								ReflectionUtils.setData.invoke(b, result.getPrevdataPRE1_13(), false);
 							}else {
-								ReflectionUtils.setBlockdata.invoke(b, ReflectionUtils.BlockDataClass.cast(result.getPrevdata()));
+								if(result.getPrevdata() != null) {
+									ReflectionUtils.setBlockdata.invoke(b, ReflectionUtils.BlockDataClass.cast(result.getPrevdata()));									
+								}
 							}
 						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 							e.printStackTrace();

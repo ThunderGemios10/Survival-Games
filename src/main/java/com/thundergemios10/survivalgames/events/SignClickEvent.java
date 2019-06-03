@@ -1,6 +1,5 @@
 package com.thundergemios10.survivalgames.events;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -9,13 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import com.thundergemios10.survivalgames.GameManager;
-import com.thundergemios10.survivalgames.SurvivalGames;
-
 
 
 public class SignClickEvent implements Listener{
 
-	Material signPost = getSignPost();
     @EventHandler(priority = EventPriority.HIGHEST)
     public void clickHandler(PlayerInteractEvent e){
 
@@ -23,8 +19,7 @@ public class SignClickEvent implements Listener{
         
 
         Block clickedBlock = e.getClickedBlock(); 
-
-        if(!(clickedBlock.getType()==Material.SIGN || clickedBlock.getType()==signPost || clickedBlock.getType()==Material.WALL_SIGN)) return;
+        if(!(clickedBlock.getState() instanceof Sign)) return;        
         Sign thisSign = (Sign) clickedBlock.getState();
         //System.out.println("Clicked sign");
         String[] lines = thisSign.getLines();
@@ -45,20 +40,6 @@ public class SignClickEvent implements Listener{
         }
 
     }
-	private Material getSignPost() {
-        Material signPost = null;
-		try {
-			if(SurvivalGames.PRE1_13) {
-				signPost = Material.class.cast(Material.class.getDeclaredField("SIGN_POST").get(Material.class));
-			}else {				
-				signPost = Material.class.cast(Material.class.getDeclaredField("LEGACY_SIGN_POST").get(Material.class));
-			}
-		} catch (Exception e1) {
-				e1.printStackTrace();
-		}
-		return signPost;
-	}
-
 }
 
 

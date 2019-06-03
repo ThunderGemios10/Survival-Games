@@ -26,8 +26,10 @@ public class ReflectionUtils {
 	
 	//1.13+ Blockdata
 	public static Class<?> BlockDataClass = getBlockDataClass();
+	public static Class<?> DirectionalClass = getDirectionalClass();
 	public static Method getBlockData = getBlockDataMethod();
 	public static Method setBlockdata = setBlockDataMethod();
+	public static Method getFacing = getFacingMethod();
 	//1.12 Blockdata
 	public static Method getData = getDataMethod();
 	public static Method setData = setDataMethod();
@@ -137,6 +139,15 @@ public class ReflectionUtils {
 		}		
 		return null;
 	}
+	private static Class<?> getDirectionalClass() {
+		if(SurvivalGames.PRE1_13) return null;
+		try {
+			return Class.forName("org.bukkit.block.data.Directional");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}		
+		return null;
+	}
 	private static Method getBlockDataMethod() {
 		if(SurvivalGames.PRE1_13) return null;
 		try {
@@ -151,6 +162,15 @@ public class ReflectionUtils {
 		try {
 			return Class.forName("org.bukkit.block.Block").getMethod("setBlockData", BlockDataClass);
 		} catch (NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	private static Method getFacingMethod() {
+		if(SurvivalGames.PRE1_13) return null;
+		try {
+			return DirectionalClass.getMethod("getFacing");
+		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 		return null;	

@@ -258,7 +258,7 @@ public class LoggingManager implements  Listener{
 						GameManager.getInstance().getBlockGameId(b.getLocation()),
 						b.getWorld().getName(),
 						Material.AIR,
-						(byte)0,
+						null,
 						b.getType(),
 						ReflectionUtils.getBlockData.invoke(b),
 						b.getX(),

@@ -126,7 +126,7 @@ public class ItemReader {
 			if (!split[3].equalsIgnoreCase("none")) {
 				String encs[] = split[3].toLowerCase().split(" ");
 				for(String enc: encs){
-					System.out.println(enc);
+					SurvivalGames.debug("[ItemReader] applying enchantment: " + enc);
 					String e[] = enc.split(":");
 					i.addUnsafeEnchantment(encids.get(e[0]), Integer.parseInt(e[1]));
 				}

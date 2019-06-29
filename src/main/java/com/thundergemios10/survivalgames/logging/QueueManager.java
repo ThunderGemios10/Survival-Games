@@ -268,6 +268,7 @@ public class QueueManager {
 						Location l = new Location(Bukkit.getWorld(result.getWorld()), result.getX(), result.getY(), result.getZ());
 						Block b = l.getBlock();
 						b.setType(result.getPrevType());
+						
 						try {
 							if(SurvivalGames.PRE1_13) {
 								ReflectionUtils.setData.invoke(b, result.getPrevdataPRE1_13(), false);
@@ -279,6 +280,7 @@ public class QueueManager {
 						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 							e.printStackTrace();
 						}
+						
 						b.getState().update(true, true);
 
 						/*	if(result.getItems() != null){

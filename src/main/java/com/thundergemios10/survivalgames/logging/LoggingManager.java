@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Jukebox;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -76,12 +77,13 @@ public class LoggingManager implements  Listener{
 	public void blockChanged(PlayerInteractEvent e) {
 		if(e.isCancelled())return;
 		if(e.getClickedBlock() == null) return;
-		String[] type = e.getClickedBlock().getType().toString().split("_");
+		Block b = e.getClickedBlock();
+		String[] type = b.getType().toString().split("_");
 		if(type.length >= 2) {
 			if(type[type.length-1].equalsIgnoreCase("button") || (type.length >= 3 && (type[type.length-1]+"_"+type[type.length-2]).equalsIgnoreCase("pressure_plate"))) return;
 			
 			if(type[type.length-1].equalsIgnoreCase("door")) {
-				Block down = e.getClickedBlock().getRelative(0, -1, 0);
+				Block down = b.getRelative(0, -1, 0);
 				String[] downType = down.getType().toString().split("_");
 				if(downType[downType.length-1].equalsIgnoreCase("door")) {
 					logBlockChanged(down);
@@ -89,7 +91,12 @@ public class LoggingManager implements  Listener{
 				}
 			}
 		}
-
+		if(b.getState() instanceof Jukebox) {
+			if(GameManager.getInstance().getBlockGameId(b.getLocation()) == -1)	return;
+			if(GameManager.getInstance().getGameMode(GameManager.getInstance().getBlockGameId(b.getLocation())) == Game.GameMode.DISABLED)	return;
+			e.setCancelled(true);
+			return;
+		}
 
 		logBlockChanged(e.getClickedBlock());
 		i.put("BCHANGE", i.get("BCHANGE")+1);

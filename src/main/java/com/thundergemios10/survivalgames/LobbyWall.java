@@ -61,7 +61,6 @@ public class LobbyWall {
         }
         try {
 	        if(SurvivalGames.PRE1_13) {
-	        	SurvivalGames.debug("[LobbyWall] PRE1_13 reverse sign test1");
 	        	SurvivalGames.debug("[LobbyWall] " + ReflectionUtils.getData.invoke(new Location(w, x1, y1, z1).getBlock()));
 	        	int dir = Integer.parseInt(ReflectionUtils.getData.invoke(new Location(w, x1, y1, z1).getBlock()).toString());
 	        	SurvivalGames.debug("dir: " + dir);
@@ -134,16 +133,20 @@ public class LobbyWall {
         }
 
         try {
-            int no = 2;
-            int line = 0;
-            for (String s: display) {
-                signs.get(no).setLine(line, s);
-                line++;
-                if (line >= 4) {
-                    line = 0;
-                    no++;
-                }
-            }
+        	if(signs.size() >= 3) {
+	    		int no = 2;
+	            int line = 0;
+	            for (String s: display) {
+	                signs.get(no).setLine(line, s);
+	                line++;
+	                if (line >= 4) {
+	                    line = 0;
+	                    no++;
+	                }
+	            }
+        	}else {
+        		SurvivalGames.debug("less than 3 signs avialable. Not able to display players.");
+        	}
         } catch (Exception e) {
         	e.printStackTrace();
         }

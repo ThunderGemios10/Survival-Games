@@ -259,7 +259,8 @@ public class Game {
 
 						hookvars.put("activeplayers", activePlayers.size()+"");
 						LobbyManager.getInstance().updateWall(gameID);
-						showMenu(p);
+//						Kits not yet implemented
+//						showMenu(p);
 						HookManager.getInstance().runHook("GAME_POST_ADDPLAYER", "activePlayers-"+activePlayers.size());
 
 						if(spawnCount == activePlayers.size()){

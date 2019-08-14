@@ -54,7 +54,7 @@ messages:
     nolobbyspawn: '&cLobby spawn is not set!'
     wrongtarget: '&cThe block you are looking at is not {$type}.'
     notanumber: '&e{$input} &cis not a number!'
-    notspecified: '&c{input} not specified!'
+    notspecified: '&c{$input} not specified!'
     argumentsnotneeded: '&cArguments not needed!'
     gamenotexist: "&cGame doesn''t exist!"
     notinarena: '&cNot in arena!'

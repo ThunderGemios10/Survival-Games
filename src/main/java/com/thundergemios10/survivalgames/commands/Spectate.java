@@ -37,7 +37,7 @@ public class Spectate implements SubCommand{
         return true;
     }
 
-    public String help(Player p) {
+    public String help() {
         return "/sg spectate <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.spectate", "Spectate a running arena");
     }
 

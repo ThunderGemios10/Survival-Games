@@ -2,7 +2,7 @@ package com.thundergemios10.survivalgames.commands;
 
 import java.util.HashMap;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import com.thundergemios10.survivalgames.Game;
 import com.thundergemios10.survivalgames.GameManager;
 import com.thundergemios10.survivalgames.MessageManager;
@@ -10,24 +10,24 @@ import com.thundergemios10.survivalgames.SettingsManager;
 
 
 
-public class Flag implements SubCommand {
+public class Flag implements ConsoleSubCommand {
 
-    public boolean onCommand(Player player, String[] args) {
+    public boolean onCommand(CommandSender sender, String[] args) {
         
-        if (!player.hasPermission(permission())) {
-            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.nopermission", player);
+        if (!sender.hasPermission(permission())) {
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.nopermission", sender);
             return true;
         }
         
         if(args.length < 2){
-            player.sendMessage(help(player));
+        	sender.sendMessage(help());
             return true;
         }
         
         Game g = GameManager.getInstance().getGame(Integer.parseInt(args[0]));
         
         if(g == null){
-            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.gamedoesntexist", player, "arena-" + args[0]);
+            MessageManager.getInstance().sendFMessage(MessageManager.PrefixType.ERROR, "error.gamedoesntexist", sender, "arena-" + args[0]);
             return true;
         }
         
@@ -40,7 +40,7 @@ public class Flag implements SubCommand {
         return false;
     }
 
-    public String help(Player p) {
+    public String help() {
         return "/sg flag <id> <flag> <value> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.flag", "Modifies an arena-specific setting");
     }
 

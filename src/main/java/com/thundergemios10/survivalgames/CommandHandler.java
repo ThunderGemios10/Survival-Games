@@ -1,7 +1,9 @@
 package com.thundergemios10.survivalgames;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.bukkit.ChatColor;
@@ -16,16 +18,22 @@ import com.thundergemios10.survivalgames.commands.*;
 
 
 public class CommandHandler implements CommandExecutor {
+	private static CommandHandler instance;
 	private Plugin plugin;
 	private HashMap < String, SubCommand > commands;
 	private HashMap < String, Integer > helpinfo;
+	private HashMap<String, ConsoleSubCommand> nonPlayerOnlyCmds = new HashMap<String, ConsoleSubCommand>(); 
 	private MessageManager msgmgr = MessageManager.getInstance();
+	public List<String> tabCompletionList = new ArrayList<String>();
 	public CommandHandler(Plugin plugin) {
+		setInstance(this);
 		this.plugin = plugin;
 		commands = new HashMap < String, SubCommand > ();
 		helpinfo = new HashMap < String, Integer > ();
 		loadCommands();
 		loadHelpInfo();
+		loadNonPlayerOnlyCmdList();
+		loadTabCompletionList();
 	}
 
 	private void loadCommands() {
@@ -33,27 +41,27 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("join", new Join());
 		commands.put("addwall", new AddWall());
 		commands.put("setspawn", new SetSpawn());
-		commands.put("getcount", new ListArenas());
-		commands.put("disable", new Disable());
-		commands.put("forcestart", new ForceStart());
-		commands.put("enable", new Enable());
+		commands.put("getcount", null);
+		commands.put("disable", null);
+		commands.put("forcestart", null);
+		commands.put("enable", null);
 		commands.put("vote", new Vote());
 		commands.put("leave", new Leave());
 		commands.put("setlobbyspawn", new SetLobbySpawn());
 		commands.put("setlobbywall", new SetLobbyWall());
 		commands.put("resetspawns", new ResetSpawns());
-		commands.put("delarena", new DelArena());
-		commands.put("flag", new Flag());
+		commands.put("delarena", null);
+		commands.put("flag", null);
 		commands.put("spectate", new Spectate());
 		commands.put("lq", new LeaveQueue());
 		commands.put("leavequeue", new LeaveQueue());
-		commands.put("list", new ListPlayers());
-		commands.put("listarenas", new ListArenas());
+		commands.put("list", null);
+		commands.put("listarenas", null);
 		commands.put("tp", new Teleport());
-		commands.put("reload", new Reload());
+		commands.put("reload", null);
 		commands.put("refill", new Refill());
 //		commands.put("setstatswall", new SetStatsWall());
-		commands.put("resetarena", new ResetArena());
+		commands.put("resetarena", null);
 //		commands.put("test", new Test());
 
 		// commands.put("sponsor", new Sponsor());
@@ -88,97 +96,118 @@ public class CommandHandler implements CommandExecutor {
 
 		//helpinfo.put("sponsor", 1);
 	}
+	private void loadNonPlayerOnlyCmdList() {
+		nonPlayerOnlyCmds.put("forcestart", new ForceStart());
+		nonPlayerOnlyCmds.put("enable", new Enable());
+		nonPlayerOnlyCmds.put("disable", new Disable());
+		nonPlayerOnlyCmds.put("delarena", new DelArena());
+		nonPlayerOnlyCmds.put("reload",  new Reload());
+		nonPlayerOnlyCmds.put("resetarena",  new ResetArena());
+		nonPlayerOnlyCmds.put("listarenas", new ListArenas());
+		nonPlayerOnlyCmds.put("getcount", new ListArenas());//Same as listarenas 
+		nonPlayerOnlyCmds.put("list", new ListPlayers());
+		nonPlayerOnlyCmds.put("flag", new Flag());
+	}
+	private void loadTabCompletionList(){
+		for (String key : commands.keySet()) {
+			tabCompletionList.add(key);
+		}
+		
+	}
 
 	public boolean onCommand(CommandSender sender, Command cmd1, String commandLabel, String[] args) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
-		if (!(sender instanceof Player)) {
-			// we should really allow some command through, such as
-			// enable, disable, resetarena, reload, listarenas, flag, list
-			// however that might be too awkward
-			msgmgr.logMessage(PrefixType.WARNING, "Only in-game players can use SurvivalGames commands! ");
-			return true;
-		}
-
-		Player player = (Player) sender;
 
 		if (SurvivalGames.config_todate == false) {
-			msgmgr.sendMessage(PrefixType.WARNING, "The config file is out of date. Please tell an administrator to reset the config.", player);
+			msgmgr.sendMessage(PrefixType.WARNING, "The config file is out of date. Please tell an administrator to reset the config.", sender);
 			return true;
 		}
 
 		if (SurvivalGames.dbcon == false) {
-			msgmgr.sendMessage(PrefixType.WARNING, "Could not connect to server. Plugin disabled.", player);
+			msgmgr.sendMessage(PrefixType.WARNING, "Could not connect to server. Plugin disabled.", sender);
 			return true;
 		}
 
 		if (cmd1.getName().equalsIgnoreCase("survivalgames")) {
 			if (args == null || args.length < 1) {
-				msgmgr.sendMessage(PrefixType.INFO, "Version " + pdfFile.getVersion() + " originally by Double0negative", player);
-				msgmgr.sendMessage(PrefixType.INFO, "Later fixes and updates by ThunderGemios10, SShipway and remyboy2003", player);
-				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help <player | staff | admin> for command information", player);
+				msgmgr.sendMessage(PrefixType.INFO, "Version " + pdfFile.getVersion() + " originally by Double0negative", sender);
+				msgmgr.sendMessage(PrefixType.INFO, "Later fixes and updates by ThunderGemios10, SShipway and remyboy2003", sender);
+				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help <player | staff | admin> for command information", sender);
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("help")) {
 				if (args.length == 1) {
-					help(player, 1);
+					help(sender, 1);
 				}
 				else {
 					if (args[1].toLowerCase().startsWith("player")) {
-						help(player, 1);
+						help(sender, 1);
 						return true;
 					}
 					if (args[1].toLowerCase().startsWith("staff")) {
-						help(player, 2);
+						help(sender, 2);
 						return true;
 					}
 					if (args[1].toLowerCase().startsWith("admin")) {
-						help(player, 3);
+						help(sender, 3);
 						return true;
 					}
 					else {
-						msgmgr.sendMessage(PrefixType.WARNING, args[1] + " is not a valid page! Valid pages are Player, Staff, and Admin.", player);
+						msgmgr.sendMessage(PrefixType.WARNING, args[1] + " is not a valid page! Valid pages are Player, Staff, and Admin.", sender);
 					}
 				}
 				return true;
-			}
+			}			
+			
 			String sub = args[0];
 			Vector < String > l = new Vector < String > ();
 			l.addAll(Arrays.asList(args));
 			l.remove(0);
 			args = (String[]) l.toArray(new String[0]);
 			if (!commands.containsKey(sub)) {
-				msgmgr.sendMessage(PrefixType.WARNING, "Command doesn't exist.", player);
-				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help for command information", player);
+				msgmgr.sendMessage(PrefixType.WARNING, "Command doesn't exist.", sender);
+				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help for command information", sender);
 				return true;
 			}
 			try {
-				commands.get(sub).onCommand(player, args);
+				if(nonPlayerOnlyCmds.containsKey(sub)) {
+					nonPlayerOnlyCmds.get(sub).onCommand(sender, args);
+				}else if(sender instanceof Player){
+					Player player = (Player) sender;
+					commands.get(sub).onCommand(player, args);
+				}else {
+					msgmgr.logMessage(PrefixType.WARNING, "Only in-game players can use this SurvivalGames command! ");
+					return true;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				msgmgr.sendFMessage(PrefixType.ERROR, "error.command", player, "command-["+sub+"] "+Arrays.toString(args));
-				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help for command information", player);
+				msgmgr.sendFMessage(PrefixType.ERROR, "error.command", sender, "command-["+sub+"] "+Arrays.toString(args));
+				msgmgr.sendMessage(PrefixType.INFO, "Type /sg help for command information", sender);
 			}
 			return true;
 		}
 		return false;
 	}
 
-	public void help (Player p, int page) {
+	public void help (CommandSender s, int page) {
 		if (page == 1) {
-			p.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Player Commands" + ChatColor.BLUE + " ------------");
+			s.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Player Commands" + ChatColor.BLUE + " ------------");
 		}
 		if (page == 2) {
-			p.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Staff Commands" + ChatColor.BLUE + " ------------");
+			s.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Staff Commands" + ChatColor.BLUE + " ------------");
 		}
 		if (page == 3) {
-			p.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Admin Commands" + ChatColor.BLUE + " ------------");
+			s.sendMessage(ChatColor.BLUE + "------------ " + msgmgr.pre + ChatColor.DARK_AQUA + " Admin Commands" + ChatColor.BLUE + " ------------");
 		}
 
 		for (String command : commands.keySet()) {
 			try{
 				if (helpinfo.get(command) == page) {
-
-					msgmgr.sendMessage(PrefixType.INFO, commands.get(command).help(p), p);
+					if(nonPlayerOnlyCmds.containsKey(command)) {
+						msgmgr.sendMessage(PrefixType.INFO, nonPlayerOnlyCmds.get(command).help(), s);
+					}else {
+						msgmgr.sendMessage(PrefixType.INFO, commands.get(command).help(), s);	
+					}
 				}
 			} catch(Exception e) {}
 		}
@@ -193,5 +222,11 @@ public class CommandHandler implements CommandExecutor {
                 msgmgr.sendMessage(PrefixType.INFO, v.help(p), p);
             }
         }*/
+	}
+	private void setInstance(CommandHandler instance) {
+		CommandHandler.instance = instance;
+	}
+	public static CommandHandler getInstance() {
+		return instance;
 	}
 }

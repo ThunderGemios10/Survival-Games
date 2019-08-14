@@ -19,7 +19,7 @@ public class SetLobbySpawn implements SubCommand {
         return true;
     }
     
-    public String help(Player p) {
+    public String help() {
         return "/sg setlobbyspawn - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.setlobbyspawn", "Set the lobby spawnpoint");
     }
 

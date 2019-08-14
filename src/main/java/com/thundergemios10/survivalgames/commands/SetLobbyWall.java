@@ -22,7 +22,7 @@ public class SetLobbyWall implements SubCommand{
        return true;*/
     }
 
-    public String help(Player p) {
+    public String help() {
         return "/sg addwall <id> - " + SettingsManager.getInstance().getMessageConfig().getString("messages.help.addwall", "Add a lobby stats wall for Arena <id>");
     }
 

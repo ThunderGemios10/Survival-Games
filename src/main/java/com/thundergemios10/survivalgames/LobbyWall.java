@@ -1,5 +1,6 @@
 package com.thundergemios10.survivalgames;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -7,10 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import com.thundergemios10.survivalgames.util.NameUtil;
+import com.thundergemios10.survivalgames.util.ReflectionUtils;
 
 
 
@@ -23,11 +26,10 @@ public class LobbyWall {
         gameid = gid;
     }
 
-    @SuppressWarnings("deprecation")
 	public boolean loadSign(World w, int x1, int x2, int z1, int z2, int y1) {
         boolean usingx = (x1 == x2) ? false : true;
         SurvivalGames.debug(w + " " + x1 + " " + x2 + " " + z1 + " " + z2 + " " + y1 + " " + usingx);
-        int dir = new Location(w, x1, y1, z1).getBlock().getData();
+        
         if (usingx) {
             for (int a = Math.max(x1, x2); a >= Math.min(x1, x2); a--) {
                 Location l = new Location(w, a, y1, z1);
@@ -40,6 +42,7 @@ public class LobbyWall {
                     SurvivalGames.debug("Not a sign" + b.getType().toString());
                     return false;
                 }
+                
             }
         } else {
             for (int a = Math.min(z1, z2); a <= Math.max(z1, z2); a++) {
@@ -56,10 +59,25 @@ public class LobbyWall {
                 }
             }
         }
-        SurvivalGames.debug("dir: " + dir);
-        if (dir == 3 || dir == 5) {
-            Collections.reverse(signs);
-        }
+        try {
+	        if(SurvivalGames.PRE1_13) {
+	        	SurvivalGames.debug("[LobbyWall] " + ReflectionUtils.getData.invoke(new Location(w, x1, y1, z1).getBlock()));
+	        	int dir = Integer.parseInt(ReflectionUtils.getData.invoke(new Location(w, x1, y1, z1).getBlock()).toString());
+	        	SurvivalGames.debug("dir: " + dir);
+	        	if (dir == 3 || dir == 5) {
+	                Collections.reverse(signs);
+	            }
+	        }else {
+				BlockFace dir = (BlockFace) ReflectionUtils.getFacing.invoke(ReflectionUtils.DirectionalClass.cast(ReflectionUtils.getBlockData.invoke(new Location(w, x1, y1, z1).getBlock())));
+	            SurvivalGames.debug("dir: " + dir);
+	            if(dir.equals(BlockFace.SOUTH) || dir.equals(BlockFace.EAST)) {
+	                Collections.reverse(signs);
+	            }
+	        }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+        
         addMsg("SurvivalGames");
         addMsg("Double0negative");
         addMsg("mc-sg.org");
@@ -115,17 +133,23 @@ public class LobbyWall {
         }
 
         try {
-            int no = 2;
-            int line = 0;
-            for (String s: display) {
-                signs.get(no).setLine(line, s);
-                line++;
-                if (line >= 4) {
-                    line = 0;
-                    no++;
-                }
-            }
-        } catch (Exception e) {}
+        	if(signs.size() >= 3) {
+	    		int no = 2;
+	            int line = 0;
+	            for (String s: display) {
+	                signs.get(no).setLine(line, s);
+	                line++;
+	                if (line >= 4) {
+	                    line = 0;
+	                    no++;
+	                }
+	            }
+        	}else {
+        		SurvivalGames.debug("less than 3 signs avialable. Not able to display players.");
+        	}
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
         for (Sign s: signs) {
             s.update();
         }
@@ -155,7 +179,9 @@ public class LobbyWall {
                     signs.get(b).setLine(a, s.substring(b * 16, (b + 1) * 16));
 
                     signs.get(b).update();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                	e.printStackTrace();
+                }
             }
             a++;
             msgqueue.remove(0);

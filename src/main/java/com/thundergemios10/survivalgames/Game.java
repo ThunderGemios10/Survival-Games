@@ -3,7 +3,9 @@ package com.thundergemios10.survivalgames;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,7 +51,8 @@ public class Game {
 	private HashMap < String, Object > flags = new HashMap < String, Object > ();
 	HashMap < Player, Integer > nextspec = new HashMap < Player, Integer > ();
 	private ArrayList<Integer>tasks = new ArrayList<Integer>();
-
+	private LinkedHashMap  < UUID, Long > playerJoinTimes = new LinkedHashMap  < UUID, Long > ();
+	
 	private Arena arena;
 	private int gameID;
 	private int gcount = 0;
@@ -142,6 +145,63 @@ public class Game {
 
 	public GameMode getGameMode() {
 		return mode;
+	}
+	public boolean isJoinable() {
+		if((mode == GameMode.WAITING || mode == GameMode.STARTING) && activePlayers.size() < SettingsManager.getInstance().getSpawnCount(gameID)) return true;
+		return false;
+	}
+	
+	public void addPlayerJoinTime(UUID uuid, Long time) {
+		playerJoinTimes.put(uuid, time);
+	}
+	public void removePlayerJoinTime(UUID uuid) {
+		playerJoinTimes.remove(uuid);
+	}
+	
+	public float getEstimateTimeToStart() {
+		if(!isJoinable()) {
+			return -1;
+		}
+		if(this.mode == GameMode.STARTING) {
+			return getCountdownTime();
+		}
+		if(playerJoinTimes.size() < 2) {//if there are only 1 or 0 players we can't continue  || activePlayers.size() < 2 
+			return -1;
+		}
+		
+		Long timeFirst = (Long)playerJoinTimes.values().toArray()[0] / 1000;
+		
+		int lastAmount = playerJoinTimes.size();
+		Long timeLast = (Long)playerJoinTimes.values().toArray()[lastAmount-1] / 1000;
+		
+		
+		//calculate derivative
+		Long deltaTime = timeLast - timeFirst;
+		int deltaAmount = lastAmount;
+		
+		Double dY = null;
+		Double EstimateTime = null;
+		try {
+			dY = (double)deltaAmount / (double)deltaTime;
+		
+		
+			EstimateTime =  SettingsManager.getInstance().getSpawnCount(gameID) / dY; //calculate dY * x = maxPlayersInGame -> x = maxPlayersInGame / dY
+		} catch (ArithmeticException e) {
+			e.printStackTrace();
+		}
+
+		Long deltaCurrentTime = new Date().getTime() / 1000 - timeFirst;
+		EstimateTime = EstimateTime - deltaCurrentTime;
+		
+//		SurvivalGames.debug("timeFirst: " + timeFirst 
+//				+ "  lastAmount: " +lastAmount 
+//				+ "  timelast: " +timeLast 
+//				+ "  deltatime: " + deltaTime 
+//				+ "  deltaAmount: " + deltaAmount 
+//				+ "  dY: " + dY  
+//				+ "  estimateTime: " + EstimateTime);
+		
+		return (float)(EstimateTime / 1);	
 	}
 
 	public Arena getArena() {
@@ -283,6 +343,8 @@ public class Game {
 			}
 			msgFall(PrefixType.INFO, "game.playerjoingame", "player-"+p.getName(), "activeplayers-"+ getActivePlayers(), "maxplayers-"+ SettingsManager.getInstance().getSpawnCount(gameID));
 			if (activePlayers.size() >= config.getInt("auto-start-players") && !countdownRunning) countdown(config.getInt("auto-start-time"));
+			
+			playerJoinTimes.put(p.getUniqueId(), new Date().getTime());	
 			return true;
 		} else {
 			if (config.getBoolean("enable-player-queue")) {
@@ -387,7 +449,7 @@ public class Game {
 		}
 		vote++;
 		voted.add(pl);
-		msgmgr.sendFMessage(PrefixType.INFO, "game.playervote", pl, "player-"+pl.getName());
+		msgFall(PrefixType.INFO, "game.playervote", "player-"+pl.getName());
 		HookManager.getInstance().runHook("PLAYER_VOTE", "player-"+pl.getName());
 		/*for(Player p: activePlayers){
             p.sendMessage(ChatColor.AQUA+pl.getName()+" Voted to start the game! "+ Math.round((vote +0.0) / ((getActivePlayers() +0.0)*100)) +"/"+((c.getInt("auto-start-vote")+0.0))+"%");
@@ -538,7 +600,8 @@ public class Game {
 			}
 			LobbyManager.getInstance().clearSigns(gameID);
 		}
-
+		playerJoinTimes.remove(p.getUniqueId());
+		
 		HookManager.getInstance().runHook("PLAYER_REMOVED", "player-"+p.getName());
 
 		@SuppressWarnings("unused")
@@ -696,6 +759,7 @@ public class Game {
 		activePlayers.clear();
 		inactivePlayers.clear();
 		spawns.clear();
+		playerJoinTimes.clear();
 
 		loadspawns();
 		LobbyManager.getInstance().updateWall(gameID);
@@ -745,6 +809,7 @@ public class Game {
 
 		clearSpecs();
 		queue.clear();
+		playerJoinTimes.clear();
 
 		endGame();
 		LobbyManager.getInstance().updateWall(gameID);

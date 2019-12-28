@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.thundergemios10</groupId>
   <artifactId>survivalgames</artifactId>
-  <version>0.7.4-SNAPSHOT</version>
+  <version>0.7.5-SNAPSHOT</version>
   <name>Survival-Games</name>
       <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

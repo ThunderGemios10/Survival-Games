@@ -37,8 +37,10 @@ public class CommandHandler implements CommandExecutor {
 	}
 
 	private void loadCommands() {
+//		commands.put("stet", new StartTimeEstimationTest());	//Start Time Estimation Test - for testing the getEstimateTimeToStart function in game class
 		commands.put("createarena", new CreateArena());
 		commands.put("join", new Join());
+		commands.put("autojoin", new AutoJoin());
 		commands.put("addwall", new AddWall());
 		commands.put("setspawn", new SetSpawn());
 		commands.put("getcount", null);
@@ -71,6 +73,7 @@ public class CommandHandler implements CommandExecutor {
 		//you can do this by iterating thru the hashmap from a certain index btw instead of using a new hashmap,
 		//plus, instead of doing three different ifs, just iterate thru and check if the value == the page
 		helpinfo.put("join", 1);
+		helpinfo.put("autojoin", 1);
 		helpinfo.put("vote", 1);
 		helpinfo.put("spectate", 1);
 		helpinfo.put("lq", 1);

@@ -47,6 +47,7 @@ messages:
     joinmultiplegames: '&cNie mozesz dolaczyc do wielu gier!'
     notenoughtplayers: '&cJest zamalo graczy by rozpoczac gre!'
     gamedoesntexist: '&cArena {$arena} nie istnieje!'
+    noJoinableGames: '&cNo joinable arenas found!'
     input: '&cInput error: {$message}'
     notingame: '&cMusisz byc w grze by wykonac ta czynnosc!'
     command: '&cKomenda {$command} zwrocila blad'

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 //import org.bukkit.craftbukkit.v1_12_R1.generator.InternalChunkGenerator;
@@ -82,8 +83,8 @@ public class SurvivalGames extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
 
 		
-//		@SuppressWarnings("unused")
-//		Metrics	metrics = new Metrics(this);
+		@SuppressWarnings("unused")
+		Metrics	metrics = new Metrics(this);
 
 	}
 

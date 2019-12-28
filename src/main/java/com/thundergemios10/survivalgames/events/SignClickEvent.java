@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import com.thundergemios10.survivalgames.GameManager;
+import com.thundergemios10.survivalgames.SettingsManager;
 
 
 public class SignClickEvent implements Listener{
@@ -28,7 +29,11 @@ public class SignClickEvent implements Listener{
             e.setCancelled(true);
             try{
                 if(lines[2].equalsIgnoreCase("Auto Assign")){
-                    GameManager.getInstance().autoAddPlayer(e.getPlayer());
+                	if(SettingsManager.getInstance().getConfig().getInt("randomjoin-mode", 1) == 0) {
+                		GameManager.getInstance().addPlayerRandomly(e.getPlayer());			
+                	}else {
+                		GameManager.getInstance().autoAddPlayer(e.getPlayer());						
+					}
                 }
                 else{
                     String game = lines[2].replace("Arena ", "");

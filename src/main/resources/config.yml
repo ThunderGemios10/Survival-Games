@@ -50,6 +50,12 @@ disallow-commands: true
 cmdwhitelist: 
 - 'kit' 
 
+#Sets randomjoin mode
+#0=pure random
+#1=logic based finds the best games, and chooses one from this list at random
+#default=1
+randomjoin-mode: 1
+
 #Set how long the grace period for be after the start of 
 #the game in seconds.
 grace-period: 20

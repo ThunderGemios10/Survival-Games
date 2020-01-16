@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -244,24 +246,82 @@ public class GameManager {
 	public void addPlayer(Player p, int g) {
 		Game game = getGame(g);
 		if (game == null) {
-			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.input",p, "message-No game by this ID exist!");
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.input",p, "message-No game by this ID exist! id=" + g);
 			return;
 		}
 		getGame(g).addPlayer(p);
 	}
-
-	public void autoAddPlayer(Player pl) {
-		ArrayList < Game > qg = new ArrayList < Game > (5);
-		for (Game g: games) {
-			if (g.getMode() == Game.GameMode.WAITING) qg.add(g);
-		}
-		//TODO: fancy auto balance algorithm
-		if (qg.size() == 0) {
-			pl.sendMessage(ChatColor.RED + "No games to join");
-			msgmgr.sendMessage(PrefixType.WARNING, "No games to join!", pl);
+	public void addPlayer(Player p, Game game) {
+		if (game == null) {
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.input",p, "message-Game doesn't exist!");
 			return;
 		}
-		qg.get(0).addPlayer(pl);
+		game.addPlayer(p);
+	}
+	public void addPlayerRandomly(Player p) {
+		//gets list of joinable games
+		ArrayList <Game> joinableGames = new ArrayList <Game> ();
+		for(Game game : games) {
+			if(game.isJoinable()) {
+				joinableGames.add(game);
+			}
+		}
+		if(joinableGames.isEmpty()) {
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.noJoinableGames",p, "&cNo joinable arenas found!!");
+			return;
+		}
+		
+		Random rnd = ThreadLocalRandom.current();
+		int r = rnd.nextInt(joinableGames.size());
+		Game game = joinableGames.get(r);
+
+		addPlayer(p, game);
+	}
+
+	public void autoAddPlayer(Player pl) {
+		//gets list of joinable games
+		ArrayList <Game> joinableGames = new ArrayList <Game> ();
+		for(Game game : games) {
+			if(game.isJoinable()) {
+				joinableGames.add(game);
+			}
+		}
+		if(joinableGames.isEmpty()) {
+			MessageManager.getInstance().sendFMessage(PrefixType.ERROR, "error.noJoinableGames",pl, "&cNo joinable arenas found!!");
+			return;
+		}
+			
+		//if there are games starting we just pick one of these randomly
+		Game game = null;
+		ArrayList <Game> bestGames = new ArrayList <Game> ();
+		for(Game g : joinableGames) {
+			if(g.getMode() == GameMode.STARTING) {
+				bestGames.add(g);
+			}
+		}
+		if(!bestGames.isEmpty()) {
+			Random rnd = ThreadLocalRandom.current();
+			int r = rnd.nextInt(bestGames.size());
+			game = bestGames.get(r);
+		}else {//else we get the game with the lowest estimate time
+			Game bestGame = null;
+			for(Game g : joinableGames) {
+				float esTime = g.getEstimateTimeToStart();
+				if((bestGame == null || esTime < bestGame.getEstimateTimeToStart()) && esTime != -1)  {
+					bestGame = g;
+				}
+			}
+			if(bestGame == null) {//if all arenas return a invalid estimate time we just join a random joinable arena
+				Random rnd = ThreadLocalRandom.current();
+				int r = rnd.nextInt(joinableGames.size());
+				bestGame = joinableGames.get(r);
+			}
+			game = bestGame;
+		}
+		
+		
+	
+		addPlayer(pl, game);
 	}
 
 	public WorldEditPlugin getWorldEdit() {

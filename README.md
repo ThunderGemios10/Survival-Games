@@ -1,4 +1,4 @@
-Survival Games Reloaded [![Travis-CI](https://api.travis-ci.org/ThunderGemios10/Survival-Games.svg)](https://travis-ci.org/ThunderGemios10/Survival-Games)
+Survival Games Reloaded [![Travis-CI](https://api.travis-ci.org/ThunderGemios10/Survival-Games.svg)](https://travis-ci.org/ThunderGemios10/Survival-Games) [![Build Status](https://ci.thundergemios10.com/job/SurvivalGames/badge/icon?style=flat-square)](https://ci.thundergemios10.com/job/SurvivalGames/)
 =================================
 
 

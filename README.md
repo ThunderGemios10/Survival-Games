@@ -113,7 +113,7 @@ This required the WorldEdit wand.
 
 Use `//wand` to obtain the WorldEdit wand (usually, a golden axe).  With the wand, select the entire arena area by left-clicking one corner, and right-clicking the opposite corner.  Don't forget to cover all the vertical area as well!  You can use `//expand vert` to expand your selected area from bedrock to the top of the sky if you want; see the WorldEdit documentation for other WorldEdit commands.
 
-Once selected, use `/sg creatarena` to create the arena, and find out its number.  You can use `/sg listarenas` to list all the currently defined Arenas.
+Once selected, use `/sg createarena` to create the arena, and find out its number.  You can use `/sg listarenas` to list all the currently defined Arenas.
 
 The next thing to do is to define the spawn points for the arena.  Use `/sg setspawn 1` to set your current location to be spawn point number 1.  You can then use `/sg setspawn next` repeatedly to keep adding new spawn points.  The number of spawn points is, of course, the maximum number of players for your arena.
 

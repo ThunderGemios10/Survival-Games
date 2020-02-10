@@ -88,7 +88,7 @@ public class ItemReader {
 		for(int a = 0; a < split.length; a++){
 			split[a] = split[a].trim();
 		}
-		String materialString = split[0].toUpperCase();
+		String materialString = split[0];
 		try {
 		if(split.length < 1){
 			return null;
@@ -165,9 +165,9 @@ public class ItemReader {
 	private static Method getMaterialMethod() {
 		try {
 			if(SurvivalGames.PRE1_13) {
-				return Material.class.getMethod("getMaterial", String.class);
+				return Material.class.getMethod("matchMaterial", String.class);
 			}else {
-				return Material.class.getMethod("getMaterial", String.class, boolean.class);
+				return Material.class.getMethod("matchMaterial", String.class, boolean.class);
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -23,7 +23,6 @@ public class BreakEvent implements Listener {
 
     public BreakEvent(){
     	for(String material : SettingsManager.getInstance().getConfig().getStringList("block.break.whitelist")) {
-    		material.toUpperCase();
     		try {
 	    		if(SurvivalGames.PRE1_13) {
 	    			allowedBreak.add((Material) getMaterial.invoke(Material.class, material));
@@ -74,9 +73,9 @@ public class BreakEvent implements Listener {
 	private static Method getMaterialMethod() {
 		try {
 			if(SurvivalGames.PRE1_13) {
-				return Material.class.getMethod("getMaterial", String.class);
+				return Material.class.getMethod("matchMaterial", String.class);
 			}else {
-				return Material.class.getMethod("getMaterial", String.class, boolean.class);
+				return Material.class.getMethod("matchMaterial", String.class, boolean.class);
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();

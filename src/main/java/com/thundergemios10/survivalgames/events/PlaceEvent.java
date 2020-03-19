@@ -22,7 +22,7 @@ public class PlaceEvent implements Listener {
     static Method getMaterial = getMaterialMethod();
 
     public PlaceEvent(){
-    	for(String material : SettingsManager.getInstance().getConfig().getStringList("block.break.whitelist")) {
+    	for(String material : SettingsManager.getInstance().getConfig().getStringList("block.place.whitelist")) {
     		try {
 	    		if(SurvivalGames.PRE1_13) {
 	    			allowedPlace.add((Material) getMaterial.invoke(Material.class, material));

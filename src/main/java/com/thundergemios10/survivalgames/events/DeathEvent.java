@@ -39,7 +39,7 @@ public class DeathEvent implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		if(player.getHealth() <= event.getDamage()){
+		if(player.getHealth() <= event.getFinalDamage()){
 			event.setCancelled(true);
 			player.setHealth(player.getMaxHealth());
 			player.setFoodLevel(20);
